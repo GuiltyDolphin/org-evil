@@ -7,7 +7,7 @@
 ;; Created: 2016-08-21
 ;; Version: 0.1.0
 ;; Keywords: evil org
-;; Package-Requires: ((evil "0") (hook "0"))
+;; Package-Requires: ((evil "0") (hook "0") (emaps "0"))
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 ;;;
 ;;; Code:
 
+(require 'emaps)
 (require 'evil)
 (require 'hook)
 
@@ -61,6 +62,10 @@ State for working in org tables."
   :type line
   (let (line-move-visual)
     (dotimes (n (or count 1)) (org-table-next-row))))
+
+(emaps-define-key evil-org-table-state-map
+  "o" 'evil-org-table-insert-row-below
+  "O" 'evil-org-table-insert-row-above)
 
 (defun evil-org-table--check-table
   (if (org-at-table-p)
