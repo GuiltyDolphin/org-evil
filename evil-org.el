@@ -37,6 +37,15 @@ State for working in org tables."
   :tag " <O-T> "
   :enable (normal))
 
+(defun evil-org-table-insert-row-above ()
+  "Insert a new row above the current row."
+  (interactive)
+  (org-table-insert-row))
+
+(defun evil-org-table-insert-row-below ()
+  "Insert a new row below the current row."
+  (interactive)
+  (org-table-insert-row t))
 
 (evil-define-operator evil-org-table-kill-row
   (beg end type register yank-handler)
