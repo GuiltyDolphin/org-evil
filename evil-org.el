@@ -46,5 +46,11 @@ State for working in org tables."
     (org-table-kill-row)
     (org-table-goto-column col)))
 
+(evil-define-motion evil-org-table-next-row (count)
+  "Move the cursor COUNT rows down."
+  :type line
+  (let (line-move-visual)
+    (dotimes (n (or count 1)) (org-table-next-row))))
+
 (provide 'evil-org)
 ;;; evil-org.el ends here
