@@ -1,5 +1,14 @@
 ;;; evil-org.el --- Evil extensions for Org.
-;;;
+
+;; Copyright (C) 2016 Ben Moon
+;; Author: Ben Moon <guiltydolphin@gmail.com>
+;; URL: https://github.com/guiltydolphin/evil-org
+;; Git-Repository: git://github.com/guiltydolphin/evil-org.git
+;; Created: 2016-08-21
+;; Version: 0.1.0
+;; Keywords: evil org
+;; Package-Requires: ((evil "0") (hook "0"))
+
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
@@ -18,6 +27,8 @@
 ;;; Provide utilities for generating hooks.
 ;;;
 ;;; Code:
+
+(require 'evil)
 
 (evil-define-state org-table
   "org-table-state
