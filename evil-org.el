@@ -36,5 +36,15 @@ State for working in org tables."
   :tag " <O-T> "
   :enable (normal))
 
+
+(evil-define-operator evil-org-table-kill-row
+  (beg end type register yank-handler)
+  "Delete whole current table row."
+  :motion nil
+  (interactive "<R><x>")
+  (let ((col (org-table-current-column)))
+    (org-table-kill-row)
+    (org-table-goto-column col)))
+
 (provide 'evil-org)
 ;;; evil-org.el ends here
