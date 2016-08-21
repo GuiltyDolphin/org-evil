@@ -62,14 +62,14 @@ State for working in org tables."
   (let (line-move-visual)
     (dotimes (n (or count 1)) (org-table-next-row))))
 
-(defun evil-org--check-table
+(defun evil-org-table--check-table
   (if (org-at-table-p)
       (when (and (evil-normal-state-p) (not (evil-org-table-state-p)))
         (evil-org-table-state))
     (if (evil-org-table-state-p)
         (evil-normal-state))))
 
-(hook--monitor-expression-value '(point) 'evil--org-check-table 'org-mode t)
+(hook--monitor-expression-value '(point) 'evil-org-table---check-table 'org-mode t)
 
 (provide 'evil-org)
 ;;; evil-org.el ends here
