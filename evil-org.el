@@ -19,5 +19,11 @@
 ;;;
 ;;; Code:
 
+(evil-define-state org-table
+  "org-table-state
+State for working in org tables."
+  :tag " <O-T> "
+  :enable (normal))
+
 (provide 'evil-org)
 ;;; evil-org.el ends here
