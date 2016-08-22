@@ -64,6 +64,7 @@ State for working in org tables."
     (dotimes (n (or count 1)) (org-table-next-row))))
 
 (emaps-define-key evil-org-table-state-map
+  "D" 'evil-org-table-kill-row
   "o" 'evil-org-table-insert-row-below
   "O" 'evil-org-table-insert-row-above)
 
