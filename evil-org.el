@@ -67,14 +67,15 @@ State for working in org tables."
   "o" 'evil-org-table-insert-row-below
   "O" 'evil-org-table-insert-row-above)
 
-(defun evil-org-table--check-table
+(defun evil-org-table--check-table ()
+  "Check if we are in a table and switch to `evil-org-table-state' if so."
   (if (org-at-table-p)
       (when (and (evil-normal-state-p) (not (evil-org-table-state-p)))
         (evil-org-table-state))
     (if (evil-org-table-state-p)
         (evil-normal-state))))
 
-(hook--monitor-expression-value '(point) 'evil-org-table---check-table 'org-mode t)
+(hook--monitor-expression-value '(point) 'evil-org-table--check-table 'org-mode t)
 
 (provide 'evil-org)
 ;;; evil-org.el ends here
