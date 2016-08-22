@@ -123,10 +123,23 @@ Default COUNT is 1."
 (defun evil-org-table--check-table ()
   "Check if we are in a table and switch to `evil-org-table-state' if so."
   (if (org-at-table-p)
-      (when (and (evil-normal-state-p) (not (evil-org-table-state-p)))
-        (evil-org-table-state))
-    (if (evil-org-table-state-p)
-        (evil-normal-state))))
+      (progn
+        (evil-org-table-mode 1)
+        (when (and (evil-normal-state-p) (not (evil-org-table-state-p)))
+          (evil-org-table-state)))
+    (progn
+      (when (evil-org-table-state-p) (evil-normal-state))
+      (when evil-org-table-mode (evil-org-table-mode -1)))))
+
+(define-minor-mode evil-org-table-mode
+  "Minor mode for additional table bindings in evil-org."
+  :keymap (make-sparse-keymap))
+
+(evil-define-key 'motion evil-org-table-mode-map
+  "|" 'evil-org-table-goto-column)
+
+(evil-define-key 'visual evil-org-table-mode-map
+  "i|" 'evil-org-table-field)
 
 (hook--monitor-expression-value '(point) 'evil-org-table--check-table 'org-mode t)
 
