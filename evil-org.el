@@ -7,7 +7,7 @@
 ;; Created: 2016-08-21
 ;; Version: 0.1.0
 ;; Keywords: evil org
-;; Package-Requires: ((evil "0") (hook "0") (emaps "0"))
+;; Package-Requires: ((dash "2.13.0") (evil "0") (hook "0") (emaps "0"))
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 ;;;
 ;;; Code:
 
+(require 'dash)
 (require 'emaps)
 (require 'evil)
 (require 'hook)
@@ -47,6 +48,57 @@ State for working in org tables."
   "Insert a new row below the current row."
   (interactive)
   (org-table-insert-row t))
+
+(evil-define-motion evil-org-table-goto-column (n)
+  "Go to the Nth field in the current row.
+By default the next field."
+  :type exclusive
+  (if n (org-table-goto-column n) (org-table-next-field))
+  (point))
+
+(evil-define-motion evil-org-table-forward-field (count)
+  "Move COUNT fields forwards.
+Default COUNT is 1."
+  (let ((count (or count 1)))
+    (if (< count 0) (evil-org-table-backward-field (abs count))
+      (--dotimes count (org-table-next-field)))))
+
+(evil-define-motion evil-org-table-backward-field (count)
+  "Move COUNT fields backwards.
+Default COUNT is 1."
+  (let ((count (or count 1)))
+    (if (< count 0) (evil-org-table-forward-field (abs count))
+      (--dotimes count (org-table-previous-field)))))
+
+(evil-define-motion evil-org-table-end-of-field (count)
+  "Go to the end of the current field, move forward COUNT fields if specified."
+  :type exclusive
+  (evil-org-table-forward-field count)
+  (let ((current-field (org-table-current-column)))
+    (org-table-goto-column current-field)
+    (let ((beg-point (point)))
+      (org-table-end-of-field 0)
+      (if (= (org-table-current-column) current-field)
+          (point)
+        (goto-char beg-point)))))
+
+(evil-define-motion evil-org-table-beginning-of-field (count)
+  "Go to the end of the current field, move backwards COUNT fields if specified."
+  :type exclusive
+  (evil-org-table-backward-field count)
+  (let ((current-field (org-table-current-column)))
+    (org-table-goto-column current-field)
+    (let ((beg-point (point)))
+      (org-table-beginning-of-field 0)
+      (if (= (org-table-current-column) current-field)
+          (point)
+        (goto-char beg-point)))))
+
+
+(evil-define-text-object evil-org-table-field (count &optional beg end type)
+  "Select a field."
+  (list (save-excursion (evil-org-table-beginning-of-field (1- count)))
+        (save-excursion (evil-org-table-end-of-field (1- count)))))
 
 (evil-define-operator evil-org-table-kill-row
   (beg end type register yank-handler)
