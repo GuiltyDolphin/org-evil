@@ -164,6 +164,11 @@ By default the last line."
 (evil-define-key 'motion evil-org-table-mode-map
   "|" 'evil-org-table-goto-column)
 
+(evil-define-key '(motion operator visual) evil-org-table-mode-map
+  "gc" 'evil-org-table-goto-column
+  "gr" 'evil-org-table-goto-line
+  "gR" 'evil-org-table-goto-line-from-bottom)
+
 (evil-define-key 'visual evil-org-table-mode-map
   "i|" 'evil-org-table-field)
 
