@@ -128,6 +128,7 @@ Default COUNT is 1."
   "Go to the COUNTth data line in the current table.
 By default the first line."
   :jump t
+  :type line
   (evil-org-table--with-current-column
    (org-table-goto-line (or count 1))))
 
@@ -135,6 +136,7 @@ By default the first line."
   "Go to the COUNTth data line (counting from the last) in the current table.
 By default the last line."
   :jump t
+  :type line
   (evil-org-table--with-current-column
    (let ((num-lines (evil-org-table--num-lines)))
      (org-table-goto-line (- num-lines (1- (or count 1)))))))
