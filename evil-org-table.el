@@ -27,6 +27,14 @@
 (require 'evil)
 (require 'hook)
 
+(defmacro evil-org-table--with-current-column (&rest body)
+  "Execute BODY, but ensure the current table column is maintained."
+  (let ((current-column (make-symbol "current-column")))
+    `(let ((,current-column (org-table-current-column)))
+       ,@body
+       (when (not (= ,current-column (org-table-current-column)))
+         (org-table-goto-column ,current-column)))))
+
 (evil-define-state org-table
   "org-table-state
 State for working in org tables."
@@ -36,12 +44,14 @@ State for working in org tables."
 (defun evil-org-table-insert-row-above ()
   "Insert a new row above the current row."
   (interactive)
-  (org-table-insert-row))
+  (evil-org-table--with-current-column
+   (org-table-insert-row)))
 
 (defun evil-org-table-insert-row-below ()
   "Insert a new row below the current row."
   (interactive)
-  (org-table-insert-row t))
+  (evil-org-table--with-current-column
+   (org-table-insert-row t)))
 
 (evil-define-motion evil-org-table-goto-column (n)
   "Go to the Nth field in the current row.
