@@ -118,6 +118,27 @@ Default COUNT is 1."
   (let (line-move-visual)
     (dotimes (n (or count 1)) (org-table-next-row))))
 
+(defun evil-org-table--num-lines ()
+  "Return the number of data lines in the current table."
+  (save-excursion
+    (goto-char (org-table-end))
+    (org-table-current-line)))
+
+(evil-define-motion evil-org-table-goto-line (count)
+  "Go to the COUNTth data line in the current table.
+By default the first line."
+  :jump t
+  (evil-org-table--with-current-column
+   (org-table-goto-line (or count 1))))
+
+(evil-define-motion evil-org-table-goto-line-from-bottom (count)
+  "Go to the COUNTth data line (counting from the last) in the current table.
+By default the last line."
+  :jump t
+  (evil-org-table--with-current-column
+   (let ((num-lines (evil-org-table--num-lines)))
+     (org-table-goto-line (- num-lines (1- (or count 1)))))))
+
 (emaps-define-key evil-org-table-state-map
   "D" 'evil-org-table-kill-row
   "o" 'evil-org-table-insert-row-below
