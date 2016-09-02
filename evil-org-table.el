@@ -35,12 +35,6 @@
        (when (not (= ,current-column (org-table-current-column)))
          (org-table-goto-column ,current-column)))))
 
-(evil-define-state org-table
-  "org-table-state
-State for working in org tables."
-  :tag " <O-T> "
-  :enable (normal))
-
 (defun evil-org-table-insert-row-above ()
   "Insert a new row above the current row."
   (interactive)
@@ -141,21 +135,10 @@ By default the last line."
    (let ((num-lines (evil-org-table--num-lines)))
      (org-table-goto-line (- num-lines (1- (or count 1)))))))
 
-(emaps-define-key evil-org-table-state-map
-  "D" 'evil-org-table-kill-row
-  "o" 'evil-org-table-insert-row-below
-  "O" 'evil-org-table-insert-row-above)
-
 (defun evil-org-table--check-table ()
-  "Check if we are in a table and switch to `evil-org-table-state' if so."
-  (if (org-at-table-p)
-      (progn
-        (evil-org-table-mode 1)
-        (when (and (evil-normal-state-p) (not (evil-org-table-state-p)))
-          (evil-org-table-state)))
-    (progn
-      (when (evil-org-table-state-p) (evil-normal-state))
-      (when evil-org-table-mode (evil-org-table-mode -1)))))
+  "Check if we are in a table and switch to `evil-org-table-mode' if so."
+  (if (org-at-table-p) (evil-org-table-mode 1)
+    (when evil-org-table-mode (evil-org-table-mode -1))))
 
 (define-minor-mode evil-org-table-mode
   "Minor mode for additional table bindings in evil-org."
@@ -169,6 +152,11 @@ By default the last line."
   "gc" 'evil-org-table-goto-column
   "gr" 'evil-org-table-goto-line
   "gR" 'evil-org-table-goto-line-from-bottom)
+
+(evil-define-key 'normal evil-org-table-mode-map
+  "D" 'evil-org-table-kill-row
+  "o" 'evil-org-table-insert-row-below
+  "O" 'evil-org-table-insert-row-above)
 
 (evil-define-key 'visual evil-org-table-mode-map
   "i|" 'evil-org-table-field)
