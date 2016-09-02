@@ -159,7 +159,8 @@ By default the last line."
 
 (define-minor-mode evil-org-table-mode
   "Minor mode for additional table bindings in evil-org."
-  :keymap (make-sparse-keymap))
+  :keymap (make-sparse-keymap)
+  :lighter "<table>")
 
 (evil-define-key 'motion evil-org-table-mode-map
   "|" 'evil-org-table-goto-column)
