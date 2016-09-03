@@ -29,6 +29,7 @@
   (count)
   "Move up COUNT parent headings.
 Jump to the current heading if not already upon it."
+  :type line
   (let ((count (or count 1)))
     (unless (org-at-heading-p) (progn (org-back-to-heading) (setq count (1- count))))
     (--dotimes count (org-up-heading-all 1))))
@@ -38,6 +39,7 @@ Jump to the current heading if not already upon it."
   "Move up to the COUNTth level parent heading.
 Move to the parent-most heading by default.
 Move to the current heading if COUNT is greater than the parent level."
+  :type line
   (let ((count (or count 1))
         (level (org-current-level)))
     (when level
