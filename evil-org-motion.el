@@ -33,5 +33,16 @@ Jump to the current heading if not already upon it."
     (unless (org-at-heading-p) (progn (org-back-to-heading) (setq count (1- count))))
     (--dotimes count (org-up-heading-all 1))))
 
+(evil-define-motion evil-org-motion-up-heading-top
+  (count)
+  "Move up to the COUNTth level parent heading.
+Move to the parent-most heading by default.
+Move to the current heading if COUNT is greater than the parent level."
+  (let ((count (or count 1))
+        (level (org-current-level)))
+    (when level
+      (if (<= level count) (org-back-to-heading)
+        (org-up-heading-all (- level count))))))
+
 (provide 'evil-org-motion)
 ;;; evil-org-motion.el ends here
