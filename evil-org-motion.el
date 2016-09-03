@@ -22,5 +22,16 @@
 ;;;
 ;;; Code:
 
+(require 'dash)
+(require 'evil)
+
+(evil-define-motion evil-org-motion-up-heading
+  (count)
+  "Move up COUNT parent headings.
+Jump to the current heading if not already upon it."
+  (let ((count (or count 1)))
+    (unless (org-at-heading-p) (progn (org-back-to-heading) (setq count (1- count))))
+    (--dotimes count (org-up-heading-all 1))))
+
 (provide 'evil-org-motion)
 ;;; evil-org-motion.el ends here
