@@ -1,13 +1,7 @@
-;;; evil-org.el --- Evil extensions for Org.
+;;; evil-org-motion.el --- evil-org general motion.
 
 ;; Copyright (C) 2016 Ben Moon
 ;; Author: Ben Moon <guiltydolphin@gmail.com>
-;; URL: https://github.com/guiltydolphin/evil-org
-;; Git-Repository: git://github.com/guiltydolphin/evil-org.git
-;; Created: 2016-08-21
-;; Version: 0.1.0
-;; Keywords: evil org
-;; Package-Requires: ((dash "2.13.0") (evil "0") (hook "0") (emaps "0"))
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -24,12 +18,9 @@
 
 ;;; Commentary:
 ;;;
-;;; Evil extensions for Org.
+;;; Defines Evil functionality for moving around in general Org mode.
 ;;;
 ;;; Code:
 
-(require 'evil-org-motion)
-(require 'evil-org-table)
-
-(provide 'evil-org)
-;;; evil-org.el ends here
+(provide 'evil-org-motion)
+;;; evil-org-motion.el ends here
