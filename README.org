@@ -9,3 +9,11 @@ Evil extensions for Org-mode.
 =evil-org= aims to make motion in Org intuitive for Evil users,
 so you can expect motions such as ~$~ to be similar to ~evil-end-of-line~,
 ~^~ to ~evil-first-non-blank~, and so on and so forth.
+
+*** General motion
+
+The following are the default motion bindings for =evil-org-motion=, use
+~M-x describe-function BINDING~ for more information on each motion.
+
+- ~gh~ :: ~evil-org-motion-up-heading~
+- ~gH~ :: ~evil-org-motion-up-heading-top~
