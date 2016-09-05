@@ -19,3 +19,12 @@ The following are the default motion bindings for =evil-org-motion=, use
 - ~gh~ :: ~evil-org-motion-up-heading~
 - ~{~  :: ~evil-org-motion-backward-heading~
 - ~}~  :: ~evil-org-motion-forward-heading~
+
+*** Tables
+
+The following bindings apply when inside an Org table:
+
+- ~gR~ :: ~evil-org-table-goto-line-from-bottom~
+- ~gc~ :: ~evil-org-table-goto-column~
+- ~gr~ :: ~evil-org-table-goto-line~
+- ~|~  :: ~evil-org-table-goto-column~
