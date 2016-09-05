@@ -29,6 +29,18 @@
   "Minor-mode for moving around in Org files."
   :keymap (make-sparse-keymap))
 
+(defun evil-org-motion--last-heading-same-level-p ()
+  "Return T if the current heading is the last child of its parents."
+  (save-excursion
+    (when (ignore-errors (org-back-to-heading))
+      (let ((header-point (point)))
+        (org-forward-heading-same-level 1 t)
+        (= (point) header-point)))))
+
+(defun evil-org-motion--heading-has-parent-p ()
+  "Return non-NIL if the current heading has a parent."
+  (save-excursion (ignore-errors (org-up-heading-safe))))
+
 (evil-define-motion evil-org-motion-up-heading
   (count)
   "Move up COUNT parent headings.
