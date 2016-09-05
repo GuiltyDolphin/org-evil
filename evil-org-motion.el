@@ -25,6 +25,10 @@
 (require 'dash)
 (require 'evil)
 
+(define-minor-mode evil-org-motion-mode
+  "Minor-mode for moving around in Org files."
+  :keymap (make-sparse-keymap))
+
 (evil-define-motion evil-org-motion-up-heading
   (count)
   "Move up COUNT parent headings.
