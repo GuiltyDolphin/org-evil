@@ -112,7 +112,10 @@ Move to the current heading if COUNT is greater than the parent level."
 
 (evil-define-key 'motion evil-org-motion-mode-map
   "gh" 'evil-org-motion-up-heading
-  "gH" 'evil-org-motion-up-heading-top)
+  "gH" 'evil-org-motion-up-heading-top
+  "{" 'evil-org-motion-backward-heading
+  "}" 'evil-org-motion-forward-heading)
+
 (add-hook 'org-mode-hook 'evil-org-motion-mode)
 
 (provide 'evil-org-motion)

@@ -15,5 +15,7 @@ so you can expect motions such as ~$~ to be similar to ~evil-end-of-line~,
 The following are the default motion bindings for =evil-org-motion=, use
 ~M-x describe-function BINDING~ for more information on each motion.
 
-- ~gh~ :: ~evil-org-motion-up-heading~
 - ~gH~ :: ~evil-org-motion-up-heading-top~
+- ~gh~ :: ~evil-org-motion-up-heading~
+- ~{~  :: ~evil-org-motion-backward-heading~
+- ~}~  :: ~evil-org-motion-forward-heading~
