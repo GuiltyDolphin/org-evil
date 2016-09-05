@@ -23,7 +23,6 @@
 ;;; Code:
 
 (require 'dash)
-(require 'emaps)
 (require 'evil)
 (require 'hook)
 
