@@ -50,5 +50,7 @@ Move to the current heading if COUNT is greater than the parent level."
       (if (<= level count) (org-back-to-heading)
         (org-up-heading-all (- level count))))))
 
+(add-hook 'org-mode-hook 'evil-org-motion-mode)
+
 (provide 'evil-org-motion)
 ;;; evil-org-motion.el ends here
