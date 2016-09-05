@@ -145,20 +145,20 @@ By default the last line."
   :keymap (make-sparse-keymap)
   :lighter "<table>")
 
-(evil-define-key 'motion evil-org-table-mode-map
+(evil-define-minor-mode-key 'motion 'evil-org-table-mode
   "|" 'evil-org-table-goto-column)
 
-(evil-define-key '(motion operator visual) evil-org-table-mode-map
+(evil-define-minor-mode-key '(motion operator visual) 'evil-org-table-mode
   "gc" 'evil-org-table-goto-column
   "gr" 'evil-org-table-goto-line
   "gR" 'evil-org-table-goto-line-from-bottom)
 
-(evil-define-key 'normal evil-org-table-mode-map
+(evil-define-minor-mode-key 'normal 'evil-org-table-mode
   "D" 'evil-org-table-kill-row
   "o" 'evil-org-table-insert-row-below
   "O" 'evil-org-table-insert-row-above)
 
-(evil-define-key 'visual evil-org-table-mode-map
+(evil-define-minor-mode-key 'visual 'evil-org-table-mode
   "i|" 'evil-org-table-field)
 
 (hook--monitor-expression-value '(point) 'evil-org-table--check-table 'org-mode t)

@@ -110,7 +110,7 @@ Move to the current heading if COUNT is greater than the parent level."
       (if (<= level count) (org-back-to-heading)
         (org-up-heading-all (- level count))))))
 
-(evil-define-key 'motion evil-org-motion-mode-map
+(evil-define-minor-mode-key 'motion 'evil-org-motion-mode
   "gh" 'evil-org-motion-up-heading
   "gH" 'evil-org-motion-up-heading-top
   "{" 'evil-org-motion-backward-heading
