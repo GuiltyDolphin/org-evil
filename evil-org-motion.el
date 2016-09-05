@@ -49,6 +49,29 @@ the next higher heading."
             (org-forward-heading-same-level 1)
           (error "No more forward headings"))))))
 
+(evil-define-motion evil-org-motion-backward-heading
+  (count)
+  "Move backward by COUNT headings at the same level (default 1).
+
+If there are no previous headings at the same level, attempt to move to
+the previous higher heading.
+
+Move to the current heading if not on a heading."
+  (evil-org-motion--check-in-headings)
+  (let ((count (or count 1)))
+    (--dotimes count
+      (if (evil-org-motion--first-heading-same-level-p)
+          (if (evil-org-motion--heading-has-parent-p)
+              (evil-org-motion-up-heading)
+            (if (org-at-heading-p)
+                (error "Already at first heading")
+              (evil-org-motion-up-heading)))
+        (if (not (evil-org-motion--first-heading-same-level-p))
+            (if (org-at-heading-p)
+                (org-backward-heading-same-level 1)
+              (evil-org-motion-up-heading))
+          (error "No more previous headings"))))))
+
 (defun evil-org-motion--last-heading-same-level-p ()
   "Return T if the current heading is the last child of its parents."
   (save-excursion
