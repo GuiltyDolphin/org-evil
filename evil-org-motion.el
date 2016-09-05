@@ -29,6 +29,22 @@
   "Minor-mode for moving around in Org files."
   :keymap (make-sparse-keymap))
 
+(evil-define-motion evil-org-motion-forward-heading
+  (count)
+  "Move forward by COUNT headings at the same level (default 1).
+
+If there are no more headings at the same level, attempt to move to
+the next higher heading."
+  (let ((count (or count 1)))
+    (--dotimes count
+      (if (and (evil-org-motion--last-heading-same-level-p) (evil-org-motion--heading-has-parent-p))
+          (if (save-excursion (evil-org-motion-up-heading) (not (evil-org-motion--last-heading-same-level-p)))
+              (progn (evil-org-motion-up-heading) (evil-org-motion-forward-heading))
+            (error "No more forward headings"))
+        (if (not (evil-org-motion--last-heading-same-level-p))
+            (org-forward-heading-same-level 1)
+          (error "No more forward headings"))))))
+
 (defun evil-org-motion--last-heading-same-level-p ()
   "Return T if the current heading is the last child of its parents."
   (save-excursion
