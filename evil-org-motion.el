@@ -57,6 +57,11 @@ the next higher heading."
         (org-forward-heading-same-level 1 t)
         (= (point) header-point)))))
 
+(defun evil-org-motion--first-heading-same-level-p ()
+  "Return T if the current heading is the first child of its parents."
+  (save-excursion
+    (ignore-errors (progn (org-back-to-heading) (org-first-sibling-p)))))
+
 (defun evil-org-motion--heading-has-parent-p ()
   "Return non-NIL if the current heading has a parent."
   (save-excursion (ignore-errors (org-up-heading-safe))))
