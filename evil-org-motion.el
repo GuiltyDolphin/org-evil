@@ -29,6 +29,10 @@
   "Minor-mode for moving around in Org files."
   :keymap (make-sparse-keymap))
 
+(defun evil-org-motion--check-in-headings ()
+  "Signal a user error if not within a heading hierarchy."
+  (when (org-before-first-heading-p) (user-error "Before first heading")))
+
 (evil-define-motion evil-org-motion-forward-heading
   (count)
   "Move forward by COUNT headings at the same level (default 1).
