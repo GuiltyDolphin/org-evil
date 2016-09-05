@@ -22,5 +22,10 @@
 ;;;
 ;;; Code:
 
+(defgroup evil-org nil
+  "Evil extensions for Org."
+  :group 'evil
+  :prefix 'evil-org-)
+
 (provide 'evil-org-core)
 ;;; evil-org-core.el ends here
