@@ -7,7 +7,7 @@
 ;; Created: 2016-08-21
 ;; Version: 0.1.0
 ;; Keywords: evil org
-;; Package-Requires: ((dash "2.13.0") (evil "0") (hook "0") (emaps "0"))
+;; Package-Requires: ((dash "2.13.0") (evil "0") (hook "0"))
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
