@@ -38,3 +38,10 @@ The following are the default operator bindings for =evil-org-command=, use
 
 - ~<~ :: ~evil-org-promote~
 - ~>~ :: ~evil-org-demote~
+
+*** Table Operators
+
+The following bindings apply when inside an Org table:
+
+- ~<~ :: ~evil-org-table-move-column-left~
+- ~>~ :: ~evil-org-table-move-column-right~

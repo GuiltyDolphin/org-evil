@@ -169,9 +169,11 @@ By default the last line."
   "gR" 'evil-org-table-goto-line-from-bottom)
 
 (evil-define-minor-mode-key 'normal 'evil-org-table-mode
+  "<" 'evil-org-table-move-column-left
+  ">" 'evil-org-table-move-column-right
   "D" 'evil-org-table-kill-row
-  "o" 'evil-org-table-insert-row-below
-  "O" 'evil-org-table-insert-row-above)
+  "O" 'evil-org-table-insert-row-above
+  "o" 'evil-org-table-insert-row-below)
 
 (evil-define-minor-mode-key 'visual 'evil-org-table-mode
   "i|" 'evil-org-table-field)
