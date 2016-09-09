@@ -22,5 +22,10 @@
 ;;;
 ;;; Code:
 
+(define-minor-mode evil-org-command-mode
+  "Minor-mode for general evil-org commands."
+  :keymap (make-sparse-keymap))
+
+(add-hook 'org-mode-hook 'evil-org-command-mode)
 (provide 'evil-org-commands)
 ;;; evil-org-commands.el ends here
