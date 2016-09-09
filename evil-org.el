@@ -28,6 +28,7 @@
 ;;;
 ;;; Code:
 
+(require 'evil-org-commands)
 (require 'evil-org-motion)
 (require 'evil-org-table)
 
