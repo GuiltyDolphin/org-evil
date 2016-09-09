@@ -97,12 +97,15 @@ Default COUNT is 1."
         (save-excursion (evil-org-table-end-of-field (1- count)))))
 
 (evil-define-operator evil-org-table-kill-row
-  (beg end type register yank-handler)
-  "Delete whole current table row."
+  (beg end &optional count)
+  "Delete the current row or horizonal line from the table.
+
+When COUNT is specified delete COUNT rows (including the current)."
   :motion nil
-  (interactive "<R><x>")
-  (let ((col (org-table-current-column)))
-    (org-table-kill-row)
+  (interactive "<r><c>")
+  (let ((count (or count 1))
+        (col (org-table-current-column)))
+    (--dotimes count (org-table-kill-row))
     (org-table-goto-column col)))
 
 (evil-define-motion evil-org-table-next-row (count)
