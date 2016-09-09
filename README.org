@@ -4,13 +4,13 @@ Evil extensions for Org-mode.
 
 * Getting Started
 
-** Moving around
+** Moving Around
 
 =evil-org= aims to make motion in Org intuitive for Evil users,
 so you can expect motions such as ~$~ to be similar to ~evil-end-of-line~,
 ~^~ to ~evil-first-non-blank~, and so on and so forth.
 
-*** General motion
+*** General Motions
 
 The following are the default motion bindings for =evil-org-motion=, use
 ~M-x describe-function BINDING~ for more information on each motion.
@@ -20,7 +20,7 @@ The following are the default motion bindings for =evil-org-motion=, use
 - ~{~  :: ~evil-org-motion-backward-heading~
 - ~}~  :: ~evil-org-motion-forward-heading~
 
-*** Tables
+*** Table Motions
 
 The following bindings apply when inside an Org table:
 
