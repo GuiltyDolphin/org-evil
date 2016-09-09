@@ -24,7 +24,13 @@
 
 (require 'dash)
 (require 'evil)
-(require 'hook)
+(require 'evil-org-core)
+
+(evil-org--define-regional-minor-mode evil-org-table-mode
+  "Minor mode active when in an Org table."
+  (org-at-table-p)
+  :keymap (make-sparse-keymap)
+  :lighter "<table>")
 
 (defmacro evil-org-table--with-current-column (&rest body)
   "Execute BODY, but ensure the current table column is maintained."
@@ -162,16 +168,6 @@ By default the last line."
   (let ((count (or count 1)))
     (--dotimes count (org-table-move-column-left))))
 
-(defun evil-org-table--check-table ()
-  "Check if we are in a table and switch to `evil-org-table-mode' if so."
-  (if (org-at-table-p) (evil-org-table-mode 1)
-    (when evil-org-table-mode (evil-org-table-mode -1))))
-
-(define-minor-mode evil-org-table-mode
-  "Minor mode for additional table bindings in evil-org."
-  :keymap (make-sparse-keymap)
-  :lighter "<table>")
-
 (evil-define-minor-mode-key 'motion 'evil-org-table-mode
   "|" 'evil-org-table-goto-column)
 
@@ -189,8 +185,6 @@ By default the last line."
 
 (evil-define-minor-mode-key 'visual 'evil-org-table-mode
   "i|" 'evil-org-table-field)
-
-(hook--monitor-expression-value '(point) 'evil-org-table--check-table 'org-mode t)
 
 (provide 'evil-org-table)
 ;;; evil-org-table.el ends here
