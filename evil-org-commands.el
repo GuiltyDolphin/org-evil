@@ -31,19 +31,30 @@
 
 (evil-define-operator evil-org-promote
   (beg end &optional count)
-  "Promote the current region."
+  "Promote the current subtree.
+
+With a visual selection, promote the selected headings.
+Otherwise, act upon the current subtree."
   :type line
-  (interactive "<r>P")
-  (let ((count (or count 1)))
-    (--dotimes count (org-promote-subtree))))
+  (interactive "<r><c>")
+  (let* ((beg (set-marker (make-marker) beg))
+         (end (set-marker (make-marker) end))
+         (count (or count 1))
+         (subtree-promoter (if (>= count 0) 'org-promote-subtree 'org-demote-subtree))
+         (do-promoter (if (>= count 0) 'org-do-promote 'org-do-demote))
+         (count (abs count)))
+    (if (not (evil-visual-state-p))
+        (--dotimes count (funcall subtree-promoter))
+      (--dotimes count (funcall do-promoter)))))
 
 (evil-define-operator evil-org-demote
   (beg end &optional count)
-  "Demote the current region."
+  "Demote the current subtree.
+
+See also `evil-org-promote'."
   :type line
-  (interactive "<r>P")
-  (let ((count (or count 1)))
-    (--dotimes count (org-demote-subtree))))
+  (interactive "<r><c>")
+  (funcall 'evil-org-promote beg end (- (or count 1))))
 
 (add-hook 'org-mode-hook 'evil-org-command-mode)
 (provide 'evil-org-commands)
