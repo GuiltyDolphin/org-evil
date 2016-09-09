@@ -96,15 +96,24 @@ Default COUNT is 1."
   (list (save-excursion (evil-org-table-beginning-of-field (1- count)))
         (save-excursion (evil-org-table-end-of-field (1- count)))))
 
+(defun evil-org-table--last-line ()
+  "Line number of final row in current table."
+  (let* ((eot (org-table-end)))
+    (save-excursion (goto-char eot)
+      (if (org-at-table-p) (line-number-at-pos) (1- (line-number-at-pos))))))
+
 (evil-define-operator evil-org-table-kill-row
   (beg end &optional count)
   "Delete the current row or horizonal line from the table.
 
-When COUNT is specified delete COUNT rows (including the current)."
+When COUNT is specified delete COUNT rows (including the current).
+
+Only delete up to the end of the table."
   :motion nil
   (interactive "<r><c>")
-  (let ((count (or count 1))
-        (col (org-table-current-column)))
+  (let* ((available-rows (1+ (- (evil-org-table--last-line) (line-number-at-pos))))
+         (count (min (or count 1) available-rows))
+         (col (org-table-current-column)))
     (--dotimes count (org-table-kill-row))
     (org-table-goto-column col)))
 
