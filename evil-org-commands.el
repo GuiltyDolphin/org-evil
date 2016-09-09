@@ -36,6 +36,7 @@
 With a visual selection, promote the selected headings.
 Otherwise, act upon the current subtree."
   :type line
+  :motion nil
   (interactive "<r><c>")
   (let* ((beg (set-marker (make-marker) beg))
          (end (set-marker (make-marker) end))
@@ -53,6 +54,7 @@ Otherwise, act upon the current subtree."
 
 See also `evil-org-promote'."
   :type line
+  :motion nil
   (interactive "<r><c>")
   (funcall 'evil-org-promote beg end (- (or count 1))))
 
