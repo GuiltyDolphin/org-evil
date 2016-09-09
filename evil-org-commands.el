@@ -24,9 +24,15 @@
 
 (require 'dash)
 (require 'evil)
+(require 'evil-org-core)
 
 (define-minor-mode evil-org-command-mode
   "Minor-mode for general evil-org commands."
+  :keymap (make-sparse-keymap))
+
+(evil-org--define-regional-minor-mode evil-org-heading-mode
+  "Minor mode active when in an Org heading."
+  (org-at-heading-p)
   :keymap (make-sparse-keymap))
 
 (evil-define-operator evil-org-promote
@@ -60,7 +66,7 @@ See also `evil-org-promote'."
 
 (add-hook 'org-mode-hook 'evil-org-command-mode)
 
-(evil-define-minor-mode-key 'normal 'evil-org-command-mode
+(evil-define-minor-mode-key 'normal 'evil-org-heading-mode
   "<" 'evil-org-promote
   ">" 'evil-org-demote)
 

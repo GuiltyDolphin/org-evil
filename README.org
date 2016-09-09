@@ -31,10 +31,9 @@ The following bindings apply when inside an Org table:
 
 ** Operators
 
-*** General Operators
+*** Heading Operators
 
-The following are the default operator bindings for =evil-org-command=, use
-~M-x describe-function BINDING~ for more information on each operator.
+The following bindings apply when at a heading:
 
 - ~<~ :: ~evil-org-promote~
 - ~>~ :: ~evil-org-demote~
