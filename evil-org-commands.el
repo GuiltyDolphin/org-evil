@@ -57,5 +57,10 @@ See also `evil-org-promote'."
   (funcall 'evil-org-promote beg end (- (or count 1))))
 
 (add-hook 'org-mode-hook 'evil-org-command-mode)
+
+(evil-define-minor-mode-key 'normal 'evil-org-command-mode
+  "<" 'evil-org-promote
+  ">" 'evil-org-demote)
+
 (provide 'evil-org-commands)
 ;;; evil-org-commands.el ends here

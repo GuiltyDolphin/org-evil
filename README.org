@@ -28,3 +28,13 @@ The following bindings apply when inside an Org table:
 - ~gc~ :: ~evil-org-table-goto-column~
 - ~gr~ :: ~evil-org-table-goto-line~
 - ~|~  :: ~evil-org-table-goto-column~
+
+** Operators
+
+*** General Operators
+
+The following are the default operator bindings for =evil-org-command=, use
+~M-x describe-function BINDING~ for more information on each operator.
+
+- ~<~ :: ~evil-org-promote~
+- ~>~ :: ~evil-org-demote~
