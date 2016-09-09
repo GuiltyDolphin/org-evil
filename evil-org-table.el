@@ -134,6 +134,22 @@ By default the last line."
    (let ((num-lines (evil-org-table--num-lines)))
      (org-table-goto-line (- num-lines (1- (or count 1)))))))
 
+(evil-define-operator evil-org-table-move-column-right
+  (beg end &optional count)
+  "Move the current column COUNT places to the right."
+  :motion nil
+  (interactive "<r><c>")
+  (let ((count (or count 1)))
+    (--dotimes count (org-table-move-column-right))))
+
+(evil-define-operator evil-org-table-move-column-left
+  (beg end &optional count)
+  "Move the current column COUNT places to the left."
+  :motion nil
+  (interactive "<r><c>")
+  (let ((count (or count 1)))
+    (--dotimes count (org-table-move-column-left))))
+
 (defun evil-org-table--check-table ()
   "Check if we are in a table and switch to `evil-org-table-mode' if so."
   (if (org-at-table-p) (evil-org-table-mode 1)
