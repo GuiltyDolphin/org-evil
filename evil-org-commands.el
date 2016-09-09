@@ -22,9 +22,28 @@
 ;;;
 ;;; Code:
 
+(require 'dash)
+(require 'evil)
+
 (define-minor-mode evil-org-command-mode
   "Minor-mode for general evil-org commands."
   :keymap (make-sparse-keymap))
+
+(evil-define-operator evil-org-promote
+  (beg end &optional count)
+  "Promote the current region."
+  :type line
+  (interactive "<r>P")
+  (let ((count (or count 1)))
+    (--dotimes count (org-promote-subtree))))
+
+(evil-define-operator evil-org-demote
+  (beg end &optional count)
+  "Demote the current region."
+  :type line
+  (interactive "<r>P")
+  (let ((count (or count 1)))
+    (--dotimes count (org-demote-subtree))))
 
 (add-hook 'org-mode-hook 'evil-org-command-mode)
 (provide 'evil-org-commands)
