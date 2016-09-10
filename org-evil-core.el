@@ -1,4 +1,4 @@
-;;; evil-org-core.el --- evil-org core variables and functions.
+;;; org-evil-core.el --- org-evil core variables and functions.
 
 ;; Copyright (C) 2016 Ben Moon
 ;; Author: Ben Moon <guiltydolphin@gmail.com>
@@ -18,19 +18,19 @@
 
 ;;; Commentary:
 ;;;
-;;; Defines core evil-org variables and functions.
+;;; Defines core org-evil variables and functions.
 ;;;
 ;;; Code:
 
 (require 'hook)
 
-(defgroup evil-org nil
+(defgroup org-evil nil
   "Evil extensions for Org."
   :group 'evil
-  :prefix 'evil-org-)
+  :prefix 'org-evil-)
 
-(defmacro evil-org--define-regional-minor-mode (mode doc pred &rest args)
-  "Define an evil-org minor mode MODE that is active when PRED is non-NIL.
+(defmacro org-evil--define-regional-minor-mode (mode doc pred &rest args)
+  "Define an org-evil minor mode MODE that is active when PRED is non-NIL.
 DOC is the documentation as in `define-minor-mode'.
 
 PRED is checked after moving `point', and should be an un-quoted expression.
@@ -39,14 +39,14 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
            (debug (&define name string-or-null-p sexp
 			   [&rest [keywordp sexp]]
 			   def-body)))
-  (let ((check-fn (intern (format "evil-org--check-%s" mode))))
+  (let ((check-fn (intern (format "org-evil--check-%s" mode))))
     `(progn
        (define-minor-mode ,mode ,doc ,@args)
        (defun ,check-fn ()
          ,(format "Check whether %s should be activated in the current location." mode)
          (if ,pred (,mode) (when ,mode (,mode -1))))
        (hook--monitor-expression-value '(point) ',check-fn 'org-mode t))))
-(put 'evil-org--define-regional-minor-mode 'lisp-indent-function 'defun)
+(put 'org-evil--define-regional-minor-mode 'lisp-indent-function 'defun)
 
-(provide 'evil-org-core)
-;;; evil-org-core.el ends here
+(provide 'org-evil-core)
+;;; org-evil-core.el ends here

@@ -1,4 +1,4 @@
-;;; evil-org-table.el --- evil-org table table manipulation.
+;;; org-evil-table.el --- org-evil table table manipulation.
 
 ;; Copyright (C) 2016 Ben Moon
 ;; Author: Ben Moon <guiltydolphin@gmail.com>
@@ -24,15 +24,15 @@
 
 (require 'dash)
 (require 'evil)
-(require 'evil-org-core)
+(require 'org-evil-core)
 
-(evil-org--define-regional-minor-mode evil-org-table-mode
+(org-evil--define-regional-minor-mode org-evil-table-mode
   "Minor mode active when in an Org table."
   (org-at-table-p)
   :keymap (make-sparse-keymap)
   :lighter "<table>")
 
-(defmacro evil-org-table--with-current-column (&rest body)
+(defmacro org-evil-table--with-current-column (&rest body)
   "Execute BODY, but ensure the current table column is maintained."
   (let ((current-column (make-symbol "current-column")))
     `(let ((,current-column (org-table-current-column)))
@@ -40,43 +40,43 @@
        (when (not (= ,current-column (org-table-current-column)))
          (org-table-goto-column ,current-column)))))
 
-(defun evil-org-table-insert-row-above ()
+(defun org-evil-table-insert-row-above ()
   "Insert a new row above the current row."
   (interactive)
-  (evil-org-table--with-current-column
+  (org-evil-table--with-current-column
    (org-table-insert-row)))
 
-(defun evil-org-table-insert-row-below ()
+(defun org-evil-table-insert-row-below ()
   "Insert a new row below the current row."
   (interactive)
-  (evil-org-table--with-current-column
+  (org-evil-table--with-current-column
    (org-table-insert-row t)))
 
-(evil-define-motion evil-org-table-goto-column (n)
+(evil-define-motion org-evil-table-goto-column (n)
   "Go to the Nth field in the current row.
 By default the next field."
   :type exclusive
   (if n (org-table-goto-column n) (org-table-next-field))
   (point))
 
-(evil-define-motion evil-org-table-forward-field (count)
+(evil-define-motion org-evil-table-forward-field (count)
   "Move COUNT fields forwards.
 Default COUNT is 1."
   (let ((count (or count 1)))
-    (if (< count 0) (evil-org-table-backward-field (abs count))
+    (if (< count 0) (org-evil-table-backward-field (abs count))
       (--dotimes count (org-table-next-field)))))
 
-(evil-define-motion evil-org-table-backward-field (count)
+(evil-define-motion org-evil-table-backward-field (count)
   "Move COUNT fields backwards.
 Default COUNT is 1."
   (let ((count (or count 1)))
-    (if (< count 0) (evil-org-table-forward-field (abs count))
+    (if (< count 0) (org-evil-table-forward-field (abs count))
       (--dotimes count (org-table-previous-field)))))
 
-(evil-define-motion evil-org-table-end-of-field (count)
+(evil-define-motion org-evil-table-end-of-field (count)
   "Go to the end of the current field, move forward COUNT fields if specified."
   :type exclusive
-  (evil-org-table-forward-field count)
+  (org-evil-table-forward-field count)
   (let ((current-field (org-table-current-column)))
     (org-table-goto-column current-field)
     (let ((beg-point (point)))
@@ -85,10 +85,10 @@ Default COUNT is 1."
           (point)
         (goto-char beg-point)))))
 
-(evil-define-motion evil-org-table-beginning-of-field (count)
+(evil-define-motion org-evil-table-beginning-of-field (count)
   "Go to the end of the current field, move backwards COUNT fields if specified."
   :type exclusive
-  (evil-org-table-backward-field count)
+  (org-evil-table-backward-field count)
   (let ((current-field (org-table-current-column)))
     (org-table-goto-column current-field)
     (let ((beg-point (point)))
@@ -97,18 +97,18 @@ Default COUNT is 1."
           (point)
         (goto-char beg-point)))))
 
-(evil-define-text-object evil-org-table-field (count &optional beg end type)
+(evil-define-text-object org-evil-table-field (count &optional beg end type)
   "Select a field."
-  (list (save-excursion (evil-org-table-beginning-of-field (1- count)))
-        (save-excursion (evil-org-table-end-of-field (1- count)))))
+  (list (save-excursion (org-evil-table-beginning-of-field (1- count)))
+        (save-excursion (org-evil-table-end-of-field (1- count)))))
 
-(defun evil-org-table--last-line ()
+(defun org-evil-table--last-line ()
   "Line number of final row in current table."
   (let* ((eot (org-table-end)))
     (save-excursion (goto-char eot)
       (if (org-at-table-p) (line-number-at-pos) (1- (line-number-at-pos))))))
 
-(evil-define-operator evil-org-table-kill-row
+(evil-define-operator org-evil-table-kill-row
   (beg end &optional count)
   "Delete the current row or horizonal line from the table.
 
@@ -117,42 +117,42 @@ When COUNT is specified delete COUNT rows (including the current).
 Only delete up to the end of the table."
   :motion nil
   (interactive "<r><c>")
-  (let* ((available-rows (1+ (- (evil-org-table--last-line) (line-number-at-pos))))
+  (let* ((available-rows (1+ (- (org-evil-table--last-line) (line-number-at-pos))))
          (count (min (or count 1) available-rows))
          (col (org-table-current-column)))
     (--dotimes count (org-table-kill-row))
     (org-table-goto-column col)))
 
-(evil-define-motion evil-org-table-next-row (count)
+(evil-define-motion org-evil-table-next-row (count)
   "Move the cursor COUNT rows down."
   :type line
   (let (line-move-visual)
     (dotimes (n (or count 1)) (org-table-next-row))))
 
-(defun evil-org-table--num-lines ()
+(defun org-evil-table--num-lines ()
   "Return the number of data lines in the current table."
   (save-excursion
     (goto-char (org-table-end))
     (org-table-current-line)))
 
-(evil-define-motion evil-org-table-goto-line (count)
+(evil-define-motion org-evil-table-goto-line (count)
   "Go to the COUNTth data line in the current table.
 By default the first line."
   :jump t
   :type line
-  (evil-org-table--with-current-column
+  (org-evil-table--with-current-column
    (org-table-goto-line (or count 1))))
 
-(evil-define-motion evil-org-table-goto-line-from-bottom (count)
+(evil-define-motion org-evil-table-goto-line-from-bottom (count)
   "Go to the COUNTth data line (counting from the last) in the current table.
 By default the last line."
   :jump t
   :type line
-  (evil-org-table--with-current-column
-   (let ((num-lines (evil-org-table--num-lines)))
+  (org-evil-table--with-current-column
+   (let ((num-lines (org-evil-table--num-lines)))
      (org-table-goto-line (- num-lines (1- (or count 1)))))))
 
-(evil-define-operator evil-org-table-move-column-right
+(evil-define-operator org-evil-table-move-column-right
   (beg end &optional count)
   "Move the current column COUNT places to the right."
   :motion nil
@@ -160,7 +160,7 @@ By default the last line."
   (let ((count (or count 1)))
     (--dotimes count (org-table-move-column-right))))
 
-(evil-define-operator evil-org-table-move-column-left
+(evil-define-operator org-evil-table-move-column-left
   (beg end &optional count)
   "Move the current column COUNT places to the left."
   :motion nil
@@ -168,23 +168,23 @@ By default the last line."
   (let ((count (or count 1)))
     (--dotimes count (org-table-move-column-left))))
 
-(evil-define-minor-mode-key 'motion 'evil-org-table-mode
-  "|" 'evil-org-table-goto-column)
+(evil-define-minor-mode-key 'motion 'org-evil-table-mode
+  "|" 'org-evil-table-goto-column)
 
-(evil-define-minor-mode-key '(motion operator visual) 'evil-org-table-mode
-  "gc" 'evil-org-table-goto-column
-  "gr" 'evil-org-table-goto-line
-  "gR" 'evil-org-table-goto-line-from-bottom)
+(evil-define-minor-mode-key '(motion operator visual) 'org-evil-table-mode
+  "gc" 'org-evil-table-goto-column
+  "gr" 'org-evil-table-goto-line
+  "gR" 'org-evil-table-goto-line-from-bottom)
 
-(evil-define-minor-mode-key 'normal 'evil-org-table-mode
-  "<" 'evil-org-table-move-column-left
-  ">" 'evil-org-table-move-column-right
-  "D" 'evil-org-table-kill-row
-  "O" 'evil-org-table-insert-row-above
-  "o" 'evil-org-table-insert-row-below)
+(evil-define-minor-mode-key 'normal 'org-evil-table-mode
+  "<" 'org-evil-table-move-column-left
+  ">" 'org-evil-table-move-column-right
+  "D" 'org-evil-table-kill-row
+  "O" 'org-evil-table-insert-row-above
+  "o" 'org-evil-table-insert-row-below)
 
-(evil-define-minor-mode-key 'visual 'evil-org-table-mode
-  "i|" 'evil-org-table-field)
+(evil-define-minor-mode-key 'visual 'org-evil-table-mode
+  "i|" 'org-evil-table-field)
 
-(provide 'evil-org-table)
-;;; evil-org-table.el ends here
+(provide 'org-evil-table)
+;;; org-evil-table.el ends here

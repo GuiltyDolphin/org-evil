@@ -1,4 +1,4 @@
-;;; evil-org-motion.el --- evil-org general motion.
+;;; org-evil-motion.el --- org-evil general motion.
 
 ;; Copyright (C) 2016 Ben Moon
 ;; Author: Ben Moon <guiltydolphin@gmail.com>
@@ -25,15 +25,15 @@
 (require 'dash)
 (require 'evil)
 
-(define-minor-mode evil-org-motion-mode
+(define-minor-mode org-evil-motion-mode
   "Minor-mode for moving around in Org files."
   :keymap (make-sparse-keymap))
 
-(defun evil-org-motion--check-in-headings ()
+(defun org-evil-motion--check-in-headings ()
   "Signal a user error if not within a heading hierarchy."
   (when (org-before-first-heading-p) (user-error "Before first heading")))
 
-(evil-define-motion evil-org-motion-forward-heading
+(evil-define-motion org-evil-motion-forward-heading
   (count)
   "Move forward by COUNT headings at the same level (default 1).
 
@@ -41,15 +41,15 @@ If there are no more headings at the same level, attempt to move to
 the next higher heading."
   (let ((count (or count 1)))
     (--dotimes count
-      (if (and (evil-org-motion--last-heading-same-level-p) (evil-org-motion--heading-has-parent-p))
-          (if (save-excursion (evil-org-motion-up-heading) (not (evil-org-motion--last-heading-same-level-p)))
-              (progn (evil-org-motion-up-heading) (evil-org-motion-forward-heading))
+      (if (and (org-evil-motion--last-heading-same-level-p) (org-evil-motion--heading-has-parent-p))
+          (if (save-excursion (org-evil-motion-up-heading) (not (org-evil-motion--last-heading-same-level-p)))
+              (progn (org-evil-motion-up-heading) (org-evil-motion-forward-heading))
             (error "No more forward headings"))
-        (if (not (evil-org-motion--last-heading-same-level-p))
+        (if (not (org-evil-motion--last-heading-same-level-p))
             (org-forward-heading-same-level 1)
           (error "No more forward headings"))))))
 
-(evil-define-motion evil-org-motion-backward-heading
+(evil-define-motion org-evil-motion-backward-heading
   (count)
   "Move backward by COUNT headings at the same level (default 1).
 
@@ -57,22 +57,22 @@ If there are no previous headings at the same level, attempt to move to
 the previous higher heading.
 
 Move to the current heading if not on a heading."
-  (evil-org-motion--check-in-headings)
+  (org-evil-motion--check-in-headings)
   (let ((count (or count 1)))
     (--dotimes count
-      (if (evil-org-motion--first-heading-same-level-p)
-          (if (evil-org-motion--heading-has-parent-p)
-              (evil-org-motion-up-heading)
+      (if (org-evil-motion--first-heading-same-level-p)
+          (if (org-evil-motion--heading-has-parent-p)
+              (org-evil-motion-up-heading)
             (if (org-at-heading-p)
                 (error "Already at first heading")
-              (evil-org-motion-up-heading)))
-        (if (not (evil-org-motion--first-heading-same-level-p))
+              (org-evil-motion-up-heading)))
+        (if (not (org-evil-motion--first-heading-same-level-p))
             (if (org-at-heading-p)
                 (org-backward-heading-same-level 1)
-              (evil-org-motion-up-heading))
+              (org-evil-motion-up-heading))
           (error "No more previous headings"))))))
 
-(defun evil-org-motion--last-heading-same-level-p ()
+(defun org-evil-motion--last-heading-same-level-p ()
   "Return T if the current heading is the last child of its parents."
   (save-excursion
     (when (ignore-errors (org-back-to-heading))
@@ -80,16 +80,16 @@ Move to the current heading if not on a heading."
         (org-forward-heading-same-level 1 t)
         (= (point) header-point)))))
 
-(defun evil-org-motion--first-heading-same-level-p ()
+(defun org-evil-motion--first-heading-same-level-p ()
   "Return T if the current heading is the first child of its parents."
   (save-excursion
     (ignore-errors (progn (org-back-to-heading) (org-first-sibling-p)))))
 
-(defun evil-org-motion--heading-has-parent-p ()
+(defun org-evil-motion--heading-has-parent-p ()
   "Return non-NIL if the current heading has a parent."
   (save-excursion (ignore-errors (org-up-heading-safe))))
 
-(evil-define-motion evil-org-motion-up-heading
+(evil-define-motion org-evil-motion-up-heading
   (count)
   "Move up COUNT parent headings.
 Jump to the current heading if not already upon it."
@@ -98,7 +98,7 @@ Jump to the current heading if not already upon it."
     (unless (org-at-heading-p) (progn (org-back-to-heading) (setq count (1- count))))
     (--dotimes count (org-up-heading-all 1))))
 
-(evil-define-motion evil-org-motion-up-heading-top
+(evil-define-motion org-evil-motion-up-heading-top
   (count)
   "Move up to the COUNTth level parent heading.
 Move to the parent-most heading by default.
@@ -110,13 +110,13 @@ Move to the current heading if COUNT is greater than the parent level."
       (if (<= level count) (org-back-to-heading)
         (org-up-heading-all (- level count))))))
 
-(evil-define-minor-mode-key 'motion 'evil-org-motion-mode
-  "gh" 'evil-org-motion-up-heading
-  "gH" 'evil-org-motion-up-heading-top
-  "{" 'evil-org-motion-backward-heading
-  "}" 'evil-org-motion-forward-heading)
+(evil-define-minor-mode-key 'motion 'org-evil-motion-mode
+  "gh" 'org-evil-motion-up-heading
+  "gH" 'org-evil-motion-up-heading-top
+  "{" 'org-evil-motion-backward-heading
+  "}" 'org-evil-motion-forward-heading)
 
-(add-hook 'org-mode-hook 'evil-org-motion-mode)
+(add-hook 'org-mode-hook 'org-evil-motion-mode)
 
-(provide 'evil-org-motion)
-;;; evil-org-motion.el ends here
+(provide 'org-evil-motion)
+;;; org-evil-motion.el ends here

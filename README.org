@@ -1,4 +1,4 @@
-* evil-org
+* org-evil
 
 Evil extensions for Org-mode.
 
@@ -6,28 +6,28 @@ Evil extensions for Org-mode.
 
 ** Moving Around
 
-=evil-org= aims to make motion in Org intuitive for Evil users,
+=org-evil= aims to make motion in Org intuitive for Evil users,
 so you can expect motions such as ~$~ to be similar to ~evil-end-of-line~,
 ~^~ to ~evil-first-non-blank~, and so on and so forth.
 
 *** General Motions
 
-The following are the default motion bindings for =evil-org-motion=, use
+The following are the default motion bindings for =org-evil-motion=, use
 ~M-x describe-function BINDING~ for more information on each motion.
 
-- ~gH~ :: ~evil-org-motion-up-heading-top~
-- ~gh~ :: ~evil-org-motion-up-heading~
-- ~{~  :: ~evil-org-motion-backward-heading~
-- ~}~  :: ~evil-org-motion-forward-heading~
+- ~gH~ :: ~org-evil-motion-up-heading-top~
+- ~gh~ :: ~org-evil-motion-up-heading~
+- ~{~  :: ~org-evil-motion-backward-heading~
+- ~}~  :: ~org-evil-motion-forward-heading~
 
 *** Table Motions
 
 The following bindings apply when inside an Org table:
 
-- ~gR~ :: ~evil-org-table-goto-line-from-bottom~
-- ~gc~ :: ~evil-org-table-goto-column~
-- ~gr~ :: ~evil-org-table-goto-line~
-- ~|~  :: ~evil-org-table-goto-column~
+- ~gR~ :: ~org-evil-table-goto-line-from-bottom~
+- ~gc~ :: ~org-evil-table-goto-column~
+- ~gr~ :: ~org-evil-table-goto-line~
+- ~|~  :: ~org-evil-table-goto-column~
 
 ** Operators
 
@@ -35,15 +35,15 @@ The following bindings apply when inside an Org table:
 
 The following bindings apply when at a heading:
 
-- ~<~ :: ~evil-org-promote~
-- ~>~ :: ~evil-org-demote~
+- ~<~ :: ~org-evil-promote~
+- ~>~ :: ~org-evil-demote~
 
 *** Table Operators
 
 The following bindings apply when inside an Org table:
 
-- ~<~ :: ~evil-org-table-move-column-left~
-- ~>~ :: ~evil-org-table-move-column-right~
-- ~D~ :: ~evil-org-table-kill-row~
-- ~O~ :: ~evil-org-table-insert-row-above~
-- ~o~ :: ~evil-org-table-insert-row-below~
+- ~<~ :: ~org-evil-table-move-column-left~
+- ~>~ :: ~org-evil-table-move-column-right~
+- ~D~ :: ~org-evil-table-kill-row~
+- ~O~ :: ~org-evil-table-insert-row-above~
+- ~o~ :: ~org-evil-table-insert-row-below~

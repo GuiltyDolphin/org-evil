@@ -1,4 +1,4 @@
-;;; evil-org-commands.el --- evil-org general commands.
+;;; org-evil-commands.el --- org-evil general commands.
 
 ;; Copyright (C) 2016 Ben Moon
 ;; Author: Ben Moon <guiltydolphin@gmail.com>
@@ -18,24 +18,24 @@
 
 ;;; Commentary:
 ;;;
-;;; Defines evil-org general commands.
+;;; Defines org-evil general commands.
 ;;;
 ;;; Code:
 
 (require 'dash)
 (require 'evil)
-(require 'evil-org-core)
+(require 'org-evil-core)
 
-(define-minor-mode evil-org-command-mode
-  "Minor-mode for general evil-org commands."
+(define-minor-mode org-evil-command-mode
+  "Minor-mode for general org-evil commands."
   :keymap (make-sparse-keymap))
 
-(evil-org--define-regional-minor-mode evil-org-heading-mode
+(org-evil--define-regional-minor-mode org-evil-heading-mode
   "Minor mode active when in an Org heading."
   (org-at-heading-p)
   :keymap (make-sparse-keymap))
 
-(evil-define-operator evil-org-promote
+(evil-define-operator org-evil-promote
   (beg end &optional count)
   "Promote the current subtree.
 
@@ -54,21 +54,21 @@ Otherwise, act upon the current subtree."
         (--dotimes count (funcall subtree-promoter))
       (--dotimes count (funcall do-promoter)))))
 
-(evil-define-operator evil-org-demote
+(evil-define-operator org-evil-demote
   (beg end &optional count)
   "Demote the current subtree.
 
-See also `evil-org-promote'."
+See also `org-evil-promote'."
   :type line
   :motion nil
   (interactive "<r><c>")
-  (funcall 'evil-org-promote beg end (- (or count 1))))
+  (funcall 'org-evil-promote beg end (- (or count 1))))
 
-(add-hook 'org-mode-hook 'evil-org-command-mode)
+(add-hook 'org-mode-hook 'org-evil-command-mode)
 
-(evil-define-minor-mode-key 'normal 'evil-org-heading-mode
-  "<" 'evil-org-promote
-  ">" 'evil-org-demote)
+(evil-define-minor-mode-key 'normal 'org-evil-heading-mode
+  "<" 'org-evil-promote
+  ">" 'org-evil-demote)
 
-(provide 'evil-org-commands)
-;;; evil-org-commands.el ends here
+(provide 'org-evil-commands)
+;;; org-evil-commands.el ends here

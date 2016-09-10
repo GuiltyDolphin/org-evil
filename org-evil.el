@@ -1,9 +1,9 @@
-;;; evil-org.el --- Evil extensions for Org.
+;;; org-evil.el --- Evil extensions for Org.
 
 ;; Copyright (C) 2016 Ben Moon
 ;; Author: Ben Moon <guiltydolphin@gmail.com>
-;; URL: https://github.com/guiltydolphin/evil-org
-;; Git-Repository: git://github.com/guiltydolphin/evil-org.git
+;; URL: https://github.com/guiltydolphin/org-evil
+;; Git-Repository: git://github.com/guiltydolphin/org-evil.git
 ;; Created: 2016-08-21
 ;; Version: 0.1.0
 ;; Keywords: evil org
@@ -28,9 +28,9 @@
 ;;;
 ;;; Code:
 
-(require 'evil-org-commands)
-(require 'evil-org-motion)
-(require 'evil-org-table)
+(require 'org-evil-commands)
+(require 'org-evil-motion)
+(require 'org-evil-table)
 
-(provide 'evil-org)
-;;; evil-org.el ends here
+(provide 'org-evil)
+;;; org-evil.el ends here
