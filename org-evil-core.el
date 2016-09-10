@@ -45,7 +45,7 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
        (defun ,check-fn ()
          ,(format "Check whether %s should be activated in the current location." mode)
          (if ,pred (,mode) (when ,mode (,mode -1))))
-       (monitor--monitor-expression-value '(point) ',check-fn 'org-mode t))))
+       (monitor-expression-value (point) ',check-fn 'org-mode t))))
 (put 'org-evil--define-regional-minor-mode 'lisp-indent-function 'defun)
 
 (provide 'org-evil-core)
