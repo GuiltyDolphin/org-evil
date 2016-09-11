@@ -27,6 +27,8 @@
 (defgroup org-evil nil
   "Evil extensions for Org."
   :group 'evil
+  :group 'org
+  :group 'convenience
   :prefix 'org-evil-)
 
 (defmacro org-evil--define-regional-minor-mode (mode doc pred &rest args)
