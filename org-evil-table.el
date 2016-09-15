@@ -25,6 +25,7 @@
 (require 'dash)
 (require 'evil)
 (require 'org-evil-core)
+(require 'org-table)
 
 (org-evil--define-regional-minor-mode org-evil-table-mode
   "Minor mode active when in an Org table."
