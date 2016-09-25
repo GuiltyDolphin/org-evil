@@ -31,6 +31,17 @@
   :group 'convenience
   :prefix 'org-evil-)
 
+(define-minor-mode org-evil-mode
+  "Minor-mode for org-evil."
+  :group 'org-evil
+  (if org-evil-mode (monitor--enable 'org-evil-hook-monitor)
+    (monitor--disable 'org-evil-hook-monitor)))
+
+(add-hook 'org-mode-hook 'org-evil-mode)
+
+(defvar org-evil--regional-checkers nil
+  "Functions to be run when checking the current region.")
+
 (defmacro org-evil--define-regional-minor-mode (mode doc pred &rest args)
   "Define an org-evil minor mode MODE that is active when PRED is non-NIL.
 DOC is the documentation as in `define-minor-mode'.
@@ -47,8 +58,33 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
        (defun ,check-fn ()
          ,(format "Check whether %s should be activated in the current location." mode)
          (if ,pred (,mode) (when ,mode (,mode -1))))
-       (monitor-expression-value (point) ',check-fn 'org-mode t))))
+       (add-to-list 'org-evil--regional-checkers ',check-fn))))
 (put 'org-evil--define-regional-minor-mode 'lisp-indent-function 'defun)
+
+(defvar org-evil--hook-ivar nil)
+
+(define-monitor 'org-evil-hook-monitor 'hook
+  "Org-evil monitor for hooks."
+  :hook-ivar 'org-evil--hook-ivar)
+
+(defvar org-evil--post-command-instance
+  (monitor 'org-evil-hook-monitor
+    :hook 'post-command-hook
+    :trigger 'org-evil--check-point))
+
+(defvar org-evil--point-check-instance
+  (monitor 'expression-value
+    :expr '(point)
+    :pred '/=
+    :trigger 'org-evil--check-region))
+
+(defun org-evil--check-point ()
+  "Check the current point for region change."
+  (monitor-run-monitor-option 'expression-value :check org-evil--point-check-instance))
+
+(defun org-evil--check-region ()
+  "Check the current region with `org-evil--regional-checkers'."
+  (-each org-evil--regional-checkers 'funcall))
 
 (provide 'org-evil-core)
 ;;; org-evil-core.el ends here
