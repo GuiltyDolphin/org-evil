@@ -34,8 +34,8 @@
 (define-minor-mode org-evil-mode
   "Minor-mode for org-evil."
   :group 'org-evil
-  (if org-evil-mode (monitor--enable 'org-evil-hook-monitor)
-    (monitor--disable 'org-evil-hook-monitor)))
+  (if org-evil-mode (monitor-enable 'org-evil-hook-monitor)
+    (monitor-disable 'org-evil-hook-monitor)))
 
 (add-hook 'org-mode-hook 'org-evil-mode)
 
