@@ -139,6 +139,32 @@ Move to the current heading if COUNT is greater than the parent level."
   (interactive)
   (goto-char (cdr (org-evil-block-boundaries))))
 
+(defun org-evil-block-beginning-of-content ()
+  "Go to the start of the current block's content."
+  (interactive)
+  (org-evil-block-beginning-of-block)
+  (while (org-at-block-p)
+    (next-line))
+  (point))
+
+(defun org-evil-block-end-of-content ()
+  "Go to the end of the current block's content."
+  (interactive)
+  (org-evil-block-end-of-block)
+  (previous-line)
+  (point))
+
+(defun org-evil-block-content-boundaries ()
+  "Return the '(START . END) boundaries of the content for the current block."
+  (cons (save-excursion (org-evil-block-beginning-of-content))
+        (save-excursion (org-evil-block-end-of-content))))
+
+(evil-define-text-object org-evil-block-inner-block (count)
+  "Select inner block (the content)."
+  :type 'line
+  (interactive "<c>")
+  (-cons-to-list (org-evil-block-content-boundaries)))
+
 (evil-define-text-object org-evil-block-a-block (count)
   "Select a block."
   :type 'line
@@ -150,6 +176,7 @@ Move to the current heading if COUNT is greater than the parent level."
   ")" 'org-evil-block-end-of-block)
 
 (evil-define-minor-mode-key '(operator visual) 'org-evil-block-mode
+  "ib" 'org-evil-block-inner-block
   "ab" 'org-evil-block-a-block)
 
 (evil-define-minor-mode-key 'motion 'org-evil-motion-mode

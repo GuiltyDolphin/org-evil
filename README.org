@@ -62,3 +62,4 @@ The following bindings apply when inside an Org table:
 The following text objects are enabled within an Org block:
 
 - ~ab~ :: ~org-evil-block-a-block~
+- ~ib~ :: ~org-evil-block-inner-block~
