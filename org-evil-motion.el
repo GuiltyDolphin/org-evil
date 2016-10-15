@@ -1,7 +1,7 @@
 ;;; org-evil-motion.el --- org-evil general motion.
 
 ;; Copyright (C) 2016 Ben Moon
-;; Author: Ben Moon <guiltydolphin@gmail.com>
+;; Author: Ben Moon <software@guiltydolphin.com>
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
