@@ -134,8 +134,14 @@ Move to the current heading if COUNT is greater than the parent level."
   (interactive)
   (goto-char (car (org-evil-block-boundaries))))
 
+(defun org-evil-block-end-of-block ()
+  "Go to the end of the current block."
+  (interactive)
+  (goto-char (cdr (org-evil-block-boundaries))))
+
 (evil-define-minor-mode-key 'motion 'org-evil-block-mode
-  "(" 'org-evil-block-beginning-of-block)
+  "(" 'org-evil-block-beginning-of-block
+  ")" 'org-evil-block-end-of-block)
 
 (evil-define-minor-mode-key 'motion 'org-evil-motion-mode
   "gh" 'org-evil-motion-up-heading

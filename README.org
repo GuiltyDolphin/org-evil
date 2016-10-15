@@ -25,6 +25,7 @@ The following are the default motion bindings for =org-evil-motion=, use
 The following bindings apply when inside an Org block:
 
 - ~(~ :: ~org-evil-block-beginning-of-block~
+- ~)~ :: ~org-evil-block-end-of-block~
 
 *** Table Motions
 
