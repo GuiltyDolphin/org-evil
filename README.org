@@ -44,6 +44,6 @@ The following bindings apply when inside an Org table:
 
 - ~<~ :: ~org-evil-table-move-column-left~
 - ~>~ :: ~org-evil-table-move-column-right~
-- ~D~ :: ~org-evil-table-kill-row~
+- ~D~ :: ~org-evil-table-kill-row-to-end~
 - ~O~ :: ~org-evil-table-insert-row-above~
 - ~o~ :: ~org-evil-table-insert-row-below~

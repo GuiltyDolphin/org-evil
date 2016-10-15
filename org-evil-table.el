@@ -67,6 +67,10 @@
   (org-evil-table--with-current-column
    (org-table-insert-row t)))
 
+(defun org-evil-table-number-of-columns ()
+  "Return the number of columns in the current table."
+  (length (org-table-get-specials)))
+
 (evil-define-motion org-evil-table-goto-column (n)
   "Go to the Nth field in the current row.
 By default the next field."
@@ -149,6 +153,16 @@ If COUNT is specified, delete that many fields."
   (org-evil-table--with-current-field
    (--dotimes (or count 1) (org-table-blank-field) (org-evil-table-forward-field))))
 
+(evil-define-operator org-evil-table-kill-row-to-end
+  (beg end)
+  "Delete the columns after the current column in the same row from the table."
+  :motion nil
+  (interactive "<r>")
+  (org-evil-table--with-current-field
+   (let ((current-column (org-table-current-column)))
+     (org-evil-table-forward-field)
+     (org-evil-table-kill-field nil nil (- (org-evil-table-number-of-columns) current-column)))))
+
 (evil-define-motion org-evil-table-next-row (count)
   "Move the cursor COUNT rows down."
   :type line
@@ -205,7 +219,7 @@ By default the last line."
 (evil-define-minor-mode-key 'normal 'org-evil-table-mode
   "<" 'org-evil-table-move-column-left
   ">" 'org-evil-table-move-column-right
-  "D" 'org-evil-table-kill-row
+  "D" 'org-evil-table-kill-row-to-end
   "O" 'org-evil-table-insert-row-above
   "o" 'org-evil-table-insert-row-below)
 
