@@ -20,6 +20,12 @@ The following are the default motion bindings for =org-evil-motion=, use
 - ~{~  :: ~org-evil-motion-backward-heading~
 - ~}~  :: ~org-evil-motion-forward-heading~
 
+*** Block Motions
+
+The following bindings apply when inside an Org block:
+
+- ~(~ :: ~org-evil-block-beginning-of-block~
+
 *** Table Motions
 
 The following bindings apply when inside an Org table:

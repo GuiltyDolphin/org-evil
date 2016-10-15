@@ -129,6 +129,14 @@ Move to the current heading if COUNT is greater than the parent level."
   "Return the '(START . END) position of the current block."
   (or (org-evil-in-block-p) (user-error "Not in a block")))
 
+(defun org-evil-block-beginning-of-block ()
+  "Go to the beginning of the current block."
+  (interactive)
+  (goto-char (car (org-evil-block-boundaries))))
+
+(evil-define-minor-mode-key 'motion 'org-evil-block-mode
+  "(" 'org-evil-block-beginning-of-block)
+
 (evil-define-minor-mode-key 'motion 'org-evil-motion-mode
   "gh" 'org-evil-motion-up-heading
   "gH" 'org-evil-motion-up-heading-top
