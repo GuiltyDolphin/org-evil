@@ -96,6 +96,7 @@ Default COUNT is 1."
   "Go to the end of the current field, move forward COUNT fields if specified."
   :type exclusive
   (org-evil-table-forward-field count)
+  (unless count (org-evil-table-backward-field))
   (let ((current-field (org-table-current-column)))
     (org-table-goto-column current-field)
     (let ((beg-point (point)))
@@ -108,13 +109,7 @@ Default COUNT is 1."
   "Go to the beginning of the current field, move backwards COUNT fields if specified."
   :type exclusive
   (org-evil-table-backward-field count)
-  (let ((current-field (org-table-current-column)))
-    (org-table-goto-column current-field)
-    (let ((beg-point (point)))
-      (org-table-beginning-of-field 0)
-      (if (= (org-table-current-column) current-field)
-          (point)
-        (goto-char beg-point)))))
+  (unless count (org-evil-table-forward-field)))
 
 (evil-define-text-object org-evil-table-field (count &optional beg end type)
   "Select a field."
