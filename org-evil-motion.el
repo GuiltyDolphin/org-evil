@@ -139,9 +139,18 @@ Move to the current heading if COUNT is greater than the parent level."
   (interactive)
   (goto-char (cdr (org-evil-block-boundaries))))
 
+(evil-define-text-object org-evil-block-a-block (count)
+  "Select a block."
+  :type 'line
+  (interactive "<c>")
+  (-cons-to-list (org-evil-block-boundaries)))
+
 (evil-define-minor-mode-key 'motion 'org-evil-block-mode
   "(" 'org-evil-block-beginning-of-block
   ")" 'org-evil-block-end-of-block)
+
+(evil-define-minor-mode-key '(operator visual) 'org-evil-block-mode
+  "ab" 'org-evil-block-a-block)
 
 (evil-define-minor-mode-key 'motion 'org-evil-motion-mode
   "gh" 'org-evil-motion-up-heading

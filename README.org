@@ -54,3 +54,11 @@ The following bindings apply when inside an Org table:
 - ~D~ :: ~org-evil-table-kill-row-to-end~
 - ~O~ :: ~org-evil-table-insert-row-above~
 - ~o~ :: ~org-evil-table-insert-row-below~
+
+** Text Objects
+
+*** Block Text Objects
+
+The following text objects are enabled within an Org block:
+
+- ~ab~ :: ~org-evil-block-a-block~
