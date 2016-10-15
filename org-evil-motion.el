@@ -110,6 +110,25 @@ Move to the current heading if COUNT is greater than the parent level."
       (if (<= level count) (org-back-to-heading)
         (org-up-heading-all (- level count))))))
 
+;;; Blocks
+
+(org-evil--define-regional-minor-mode org-evil-block-mode
+  "Minor-mode active when in an Org block."
+  (org-evil-in-block-p)
+  :keymap (make-sparse-keymap)
+  :lighter "<block>")
+
+(defun org-evil-in-block-p ()
+  "Non-nil when point belongs to a block."
+  (let* ((case-fold-search t)
+	 (blockp (org-between-regexps-p "^[ \t]*#\\+begin_.*"
+					"^[ \t]*#\\+end_.*")))
+    blockp))
+
+(defun org-evil-block-boundaries ()
+  "Return the '(START . END) position of the current block."
+  (or (org-evil-in-block-p) (user-error "Not in a block")))
+
 (evil-define-minor-mode-key 'motion 'org-evil-motion-mode
   "gh" 'org-evil-motion-up-heading
   "gH" 'org-evil-motion-up-heading-top
