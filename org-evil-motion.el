@@ -144,14 +144,14 @@ Move to the current heading if COUNT is greater than the parent level."
   (interactive)
   (org-evil-block-beginning-of-block)
   (while (org-at-block-p)
-    (next-line))
+    (forward-line))
   (point))
 
 (defun org-evil-block-end-of-content ()
   "Go to the end of the current block's content."
   (interactive)
   (org-evil-block-end-of-block)
-  (previous-line)
+  (forward-line -1)
   (point))
 
 (defun org-evil-block-content-boundaries ()
