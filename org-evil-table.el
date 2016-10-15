@@ -87,7 +87,7 @@ Default COUNT is 1."
         (goto-char beg-point)))))
 
 (evil-define-motion org-evil-table-beginning-of-field (count)
-  "Go to the end of the current field, move backwards COUNT fields if specified."
+  "Go to the beginning of the current field, move backwards COUNT fields if specified."
   :type exclusive
   (org-evil-table-backward-field count)
   (let ((current-field (org-table-current-column)))
