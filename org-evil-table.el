@@ -41,6 +41,20 @@
        (when (not (= ,current-column (org-table-current-column)))
          (org-table-goto-column ,current-column)))))
 
+(defmacro org-evil-table--with-current-row (&rest body)
+  "Execute BODY, but ensure the current row number is maintained."
+  (let ((current-row (make-symbol "current-row")))
+    `(let ((,current-row (org-table-current-line)))
+       ,@body
+       (when (not (= ,current-row (org-table-current-line)))
+         (org-evil-table-goto-line ,current-row)))))
+
+(defmacro org-evil-table--with-current-field (&rest body)
+  "Execute BODY, but ensure the current table field position is maintained."
+  `(org-evil-table--with-current-column
+    (org-evil-table--with-current-row
+     ,@body)))
+
 (defun org-evil-table-insert-row-above ()
   "Insert a new row above the current row."
   (interactive)
@@ -123,6 +137,17 @@ Only delete up to the end of the table."
          (col (org-table-current-column)))
     (--dotimes count (org-table-kill-row))
     (org-table-goto-column col)))
+
+(evil-define-operator org-evil-table-kill-field
+  (beg end &optional count)
+  "Delete the contents of the current field.
+
+If a region is selected then delete each field in the selection.
+If COUNT is specified, delete that many fields."
+  :motion nil
+  (interactive "<r><c>")
+  (org-evil-table--with-current-field
+   (--dotimes (or count 1) (org-table-blank-field) (org-evil-table-forward-field))))
 
 (evil-define-motion org-evil-table-next-row (count)
   "Move the cursor COUNT rows down."
