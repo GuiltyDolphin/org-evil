@@ -146,17 +146,20 @@ If COUNT is specified, delete that many fields."
   :motion nil
   (interactive "<r><c>")
   (org-evil-table--with-current-field
-   (--dotimes (or count 1) (org-table-blank-field) (org-evil-table-forward-field))))
+   (let ((count (or count 1)))
+     (org-table-blank-field)
+     (--dotimes (1- count) (org-evil-table-forward-field) (org-table-blank-field)))))
 
 (evil-define-operator org-evil-table-kill-row-to-end
   (beg end)
   "Delete the columns after the current column in the same row from the table."
   :motion nil
   (interactive "<r>")
-  (org-evil-table--with-current-field
-   (let ((current-column (org-table-current-column)))
+  (unless (= (org-table-current-column) (org-evil-table-number-of-columns))
+    (org-evil-table--with-current-field
      (org-evil-table-forward-field)
-     (org-evil-table-kill-field nil nil (- (org-evil-table-number-of-columns) current-column)))))
+     (let ((current-column (org-table-current-column)))
+       (org-evil-table-kill-field nil nil (- (org-evil-table-number-of-columns) current-column))))))
 
 (evil-define-motion org-evil-table-next-row (count)
   "Move the cursor COUNT rows down."
