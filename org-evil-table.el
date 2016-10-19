@@ -159,7 +159,7 @@ If COUNT is specified, delete that many fields."
     (org-evil-table--with-current-field
      (org-evil-table-forward-field)
      (let ((current-column (org-table-current-column)))
-       (org-evil-table-kill-field nil nil (- (org-evil-table-number-of-columns) current-column))))))
+       (org-evil-table-kill-field nil nil (- (org-evil-table-number-of-columns) (1- current-column)))))))
 
 (evil-define-motion org-evil-table-next-row (count)
   "Move the cursor COUNT rows down."
