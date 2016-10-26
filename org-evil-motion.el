@@ -152,6 +152,7 @@ Move to the current heading if COUNT is greater than the parent level."
   (interactive)
   (org-evil-block-end-of-block)
   (forward-line -1)
+  (end-of-line)
   (point))
 
 (defun org-evil-block-content-boundaries ()
