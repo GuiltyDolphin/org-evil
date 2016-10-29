@@ -30,8 +30,7 @@
 (org-evil--define-regional-minor-mode org-evil-table-mode
   "Minor mode active when in an Org table."
   (org-at-table-p)
-  :keymap (make-sparse-keymap)
-  :lighter "<table>")
+  :keymap (make-sparse-keymap))
 
 (defmacro org-evil-table--with-current-column (&rest body)
   "Execute BODY, but ensure the current table column is maintained."

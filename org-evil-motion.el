@@ -115,8 +115,7 @@ Move to the current heading if COUNT is greater than the parent level."
 (org-evil--define-regional-minor-mode org-evil-block-mode
   "Minor-mode active when in an Org block."
   (org-evil-in-block-p)
-  :keymap (make-sparse-keymap)
-  :lighter "<block>")
+  :keymap (make-sparse-keymap))
 
 (defun org-evil-in-block-p ()
   "Non-nil when point belongs to a block."
