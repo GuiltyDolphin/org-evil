@@ -45,6 +45,12 @@ The following bindings apply when at a heading:
 - ~<~ :: ~org-evil-promote~
 - ~>~ :: ~org-evil-demote~
 
+*** List Operators
+
+The following bindings apply when in a list:
+
+- ~O~ :: ~org-evil-list-open-item-above~
+
 *** Table Operators
 
 The following bindings apply when inside an Org table:

@@ -31,5 +31,15 @@
   (org-in-item-p)
   :keymap (make-sparse-keymap))
 
+(defun org-evil-list-open-item-above ()
+  "Insert a new item above the current item and switch to Insert state."
+  (interactive)
+  (org-beginning-of-item)
+  (org-insert-item)
+  (evil-insert-state 1))
+
+(evil-define-minor-mode-key 'normal 'org-evil-list-mode
+  "O" 'org-evil-list-open-item-above)
+
 (provide 'org-evil-list)
 ;;; org-evil-list.el ends here
