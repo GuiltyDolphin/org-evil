@@ -1,4 +1,4 @@
-;;; org-evil-table.el --- org-evil table table manipulation.
+;;; org-evil-table.el --- org-evil table manipulation.
 
 ;; Copyright (C) 2016 Ben Moon
 ;; Author: Ben Moon <software@guiltydolphin.com>
