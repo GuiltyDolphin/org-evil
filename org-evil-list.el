@@ -59,6 +59,15 @@ If optional COUNT is specified then move that many items down."
     (org-evil-list--save-point-on-error (org-next-item))
     (org-evil-list-beginning-of-item)))
 
+(evil-define-motion org-evil-list-beginning-of-previous-item (count)
+  "Move to the beginning of the previous item.
+
+If optional COUNT is specified then move that many items up."
+  :type line
+  (--dotimes (or count 1)
+    (org-evil-list--save-point-on-error (org-previous-item))
+    (org-evil-list-beginning-of-item)))
+
 (defun org-evil-list--full-item-region (beg end)
   "Return the start of the first item touched by BEG and the end of the last item touched by END."
   (list (save-excursion (goto-char beg) (org-list-get-item-begin))
@@ -102,6 +111,7 @@ If BEG or END are NIL, no region is assumed and nothing happens."
       (--dotimes count (funcall indenter)))))
 
 (evil-define-minor-mode-key 'motion 'org-evil-list-mode
+  "(" 'org-evil-list-beginning-of-previous-item
   ")" 'org-evil-list-beginning-of-next-item
   "^" 'org-evil-list-beginning-of-item)
 
