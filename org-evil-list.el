@@ -56,6 +56,18 @@ If BEG or END are NIL, no region is assumed and nothing happens."
            (evil-with-active-region beg end ,@body))
        ,@body)))
 
+(evil-define-operator org-evil-list-outdent-item-tree
+  (beg end &optional count)
+  "Outdent the current list item and its children."
+  :type block
+  :motion nil
+  (interactive "<r><c>")
+  (org-evil-list--with-items-region beg end
+  (let* ((count (or count 1))
+         (indenter (if (>= count 0) 'org-outdent-item-tree 'org-indent-item-tree))
+         (count (abs count)))
+    (--dotimes count (funcall indenter)))))
+
 (evil-define-operator org-evil-list-indent-item-tree
   (beg end &optional count)
   "Indent the current list item and its children."
@@ -69,6 +81,7 @@ If BEG or END are NIL, no region is assumed and nothing happens."
       (--dotimes count (funcall indenter)))))
 
 (evil-define-minor-mode-key 'normal 'org-evil-list-mode
+  "<" 'org-evil-list-outdent-item-tree
   ">" 'org-evil-list-indent-item-tree
   "O" 'org-evil-list-open-item-above)
 
