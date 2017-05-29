@@ -40,6 +40,7 @@
 ;;; Code:
 
 (require 'org-evil-commands)
+(require 'org-evil-list)
 (require 'org-evil-motion)
 (require 'org-evil-table)
 
