@@ -38,6 +38,14 @@
   (org-insert-item)
   (evil-insert-state 1))
 
+(evil-define-motion org-evil-list-beginning-of-item ()
+  "Move to the beginning of the current item."
+  :type exclusive
+  (org-beginning-of-item)
+  (re-search-forward
+   (regexp-quote
+    (org-list-get-bullet (point) (org-list-struct)))))
+
 (defun org-evil-list--full-item-region (beg end)
   "Return the start of the first item touched by BEG and the end of the last item touched by END."
   (list (save-excursion (goto-char beg) (org-list-get-item-begin))
@@ -79,6 +87,9 @@ If BEG or END are NIL, no region is assumed and nothing happens."
            (indenter (if (>= count 0) 'org-indent-item-tree 'org-outdent-item-tree))
            (count (abs count)))
       (--dotimes count (funcall indenter)))))
+
+(evil-define-minor-mode-key 'motion 'org-evil-list-mode
+  "^" 'org-evil-list-beginning-of-item)
 
 (evil-define-minor-mode-key 'normal 'org-evil-list-mode
   "<" 'org-evil-list-outdent-item-tree

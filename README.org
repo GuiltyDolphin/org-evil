@@ -27,6 +27,12 @@ The following bindings apply when inside an Org block:
 - ~(~ :: ~org-evil-block-beginning-of-block~
 - ~)~ :: ~org-evil-block-end-of-block~
 
+*** List Motions
+
+The following bindings apply when inside a list:
+
+- ~^~ :: ~org-evil-list-beginning-of-item~
+
 *** Table Motions
 
 The following bindings apply when inside an Org table:
