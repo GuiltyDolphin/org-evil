@@ -31,6 +31,7 @@ The following bindings apply when inside an Org block:
 
 The following bindings apply when inside a list:
 
+- ~)~ :: ~org-evil-list-beginning-of-next-item~
 - ~^~ :: ~org-evil-list-beginning-of-item~
 
 *** Table Motions
