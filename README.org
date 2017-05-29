@@ -49,6 +49,7 @@ The following bindings apply when at a heading:
 
 The following bindings apply when in a list:
 
+- ~>~ :: ~org-evil-list-indent-item-tree~
 - ~O~ :: ~org-evil-list-open-item-above~
 
 *** Table Operators

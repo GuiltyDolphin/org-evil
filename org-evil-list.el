@@ -38,7 +38,38 @@
   (org-insert-item)
   (evil-insert-state 1))
 
+(defun org-evil-list--full-item-region (beg end)
+  "Return the start of the first item touched by BEG and the end of the last item touched by END."
+  (list (save-excursion (goto-char beg) (org-list-get-item-begin))
+        (save-excursion (goto-char end) (org-end-of-item))))
+
+(defmacro org-evil-list--with-items-region (beg end &rest body)
+  "With all items between BEG and END, execute BODY.
+
+The current region is expanded to cover all items between BEG and END.
+
+If BEG or END are NIL, no region is assumed and nothing happens."
+  (declare (indent 2) (debug t))
+  `(let ((beg ,beg) (end ,end))
+     (if (and beg end)
+         (-let* (((beg end) (org-evil-list--full-item-region beg end)))
+           (evil-with-active-region beg end ,@body))
+       ,@body)))
+
+(evil-define-operator org-evil-list-indent-item-tree
+  (beg end &optional count)
+  "Indent the current list item and its children."
+  :type block
+  :motion nil
+  (interactive "<r><c>")
+  (org-evil-list--with-items-region beg end
+    (let* ((count (or count 1))
+           (indenter (if (>= count 0) 'org-indent-item-tree 'org-outdent-item-tree))
+           (count (abs count)))
+      (--dotimes count (funcall indenter)))))
+
 (evil-define-minor-mode-key 'normal 'org-evil-list-mode
+  ">" 'org-evil-list-indent-item-tree
   "O" 'org-evil-list-open-item-above)
 
 (provide 'org-evil-list)
