@@ -94,3 +94,9 @@ The following text objects are enabled within an Org block:
 
 - ~ab~ :: ~org-evil-block-a-block~
 - ~ib~ :: ~org-evil-block-inner-block~
+
+* See Also
+
++ [[https://github.com/Somelauw/evil-org-mode][evil-org-mode by Somelauw]] - a continuation of
+  [[https://github.com/edwtjo/evil-org-mode][evil-org-mode by edwtjo]] with alternative bindings and
+  functionality.
