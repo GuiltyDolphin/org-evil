@@ -4,6 +4,18 @@
 
 Org-evil provides Org-mode extensions for Evil users.
 
+* Installation
+
+** el-get
+
+el-get can be used to install the latest version, see
+https://github.com/dimitri/el-get for more information.
+
+** MELPA
+
+The latest version of org-evil is available from MELPA.
+
+http://melpa.milkbox.net/#/org-evil
 
 * Getting Started
 
