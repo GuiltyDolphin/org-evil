@@ -1,8 +1,9 @@
 #+TITLE: org-evil
 
-* org-evil
+* Synopsis
 
-Evil extensions for Org-mode.
+Org-evil provides Org-mode extensions for Evil users.
+
 
 * Getting Started
 
