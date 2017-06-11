@@ -17,6 +17,10 @@ The latest version of org-evil is available from MELPA.
 
 http://melpa.milkbox.net/#/org-evil
 
+Follow the instructions at [[http://melpa.milkbox.net/#/getting-started][MELPA]] to enable MELPA for your
+system, then run ~M-x package-install RET org-evil RET~ to
+install org-evil.
+
 * Getting Started
 
 ** Moving Around
