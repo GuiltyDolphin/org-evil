@@ -6,6 +6,31 @@ Org-evil provides Org-mode extensions for Evil users.
 
 * Installation
 
+The following installation methods are available:
+
+** Manual
+
+To install org-evil, you need to have the following
+dependencies installed:
+
++ [[https://github.com/magnars/dash.el][dash]]
++ [[https://github.com/emacs-evil/evil][evil]]
++ [[https://github.com/GuiltyDolphin/monitor][monitor]]
+
+Once you have set up these dependencies appropriately
+(and they are in your ~load-path~) you can add:
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "/path/to/org-evil/directory")
+(require 'org-evil)
+#+END_SRC
+
+To your init file to enable org-evil for future sessions.
+
+To check that org-evil is working, navigate to a buffer
+with org as its major mode, then run ~C-h v org-evil-mode RET~,
+you should see an indication that the value of the variable is ~t~.
+
 ** el-get
 
 el-get can be used to install the latest version, see
