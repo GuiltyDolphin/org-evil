@@ -112,17 +112,17 @@ Move to the current heading if COUNT is greater than the parent level."
 
 ;;; Blocks
 
-(org-evil--define-regional-minor-mode org-evil-block-mode
-  "Minor-mode active when in an Org block."
-  (org-evil-in-block-p)
-  :keymap (make-sparse-keymap))
-
 (defun org-evil-in-block-p ()
   "Non-nil when point belongs to a block."
   (let* ((case-fold-search t)
 	 (blockp (org-between-regexps-p "^[ \t]*#\\+begin_.*"
 					"^[ \t]*#\\+end_.*")))
     blockp))
+
+(org-evil--define-regional-minor-mode org-evil-block-mode
+  "Minor-mode active when in an Org block."
+  (org-evil-in-block-p)
+  :keymap (make-sparse-keymap))
 
 (defun org-evil-block-boundaries ()
   "Return the '(START . END) position of the current block."
