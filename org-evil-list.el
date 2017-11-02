@@ -46,17 +46,13 @@
    (regexp-quote
     (org-list-get-bullet (point) (org-list-struct)))))
 
-(defmacro org-evil-list--save-point-on-error (&rest body)
-  "Execute BODY, but reset the position of point if an error is raised."
-  `(goto-char (save-excursion ,@body)))
-
 (evil-define-motion org-evil-list-beginning-of-next-item (count)
   "Move to the beginning of the next item.
 
 If optional COUNT is specified then move that many items down."
   :type line
   (--dotimes (or count 1)
-    (org-evil-list--save-point-on-error (org-next-item))
+    (org-evil--save-point-on-error (org-next-item))
     (org-evil-list-beginning-of-item)))
 
 (evil-define-motion org-evil-list-beginning-of-previous-item (count)
@@ -65,7 +61,7 @@ If optional COUNT is specified then move that many items down."
 If optional COUNT is specified then move that many items up."
   :type line
   (--dotimes (or count 1)
-    (org-evil-list--save-point-on-error (org-previous-item))
+    (org-evil--save-point-on-error (org-previous-item))
     (org-evil-list-beginning-of-item)))
 
 (defun org-evil-list--full-item-region (beg end)

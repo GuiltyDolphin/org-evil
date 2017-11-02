@@ -112,6 +112,12 @@ Move to the current heading if COUNT is greater than the parent level."
 
 ;;; Blocks
 
+(evil-define-motion org-evil-motion-forward-block-begin
+  (count)
+  "Move forward to the beginning of the COUNTth next block."
+  :type line
+  (--dotimes (or count 1) (org-evil--save-point-on-error (org-next-block 1))))
+
 (defun org-evil-in-block-p ()
   "Non-nil when point belongs to a block."
   (let* ((case-fold-search t)
@@ -184,8 +190,9 @@ Move to the current heading if COUNT is greater than the parent level."
     "ab" 'org-evil-block-a-block))
 
 (evil-define-minor-mode-key 'motion 'org-evil-motion-mode
-  "gh" 'org-evil-motion-up-heading
+  "]]" 'org-evil-motion-forward-block-begin
   "gH" 'org-evil-motion-up-heading-top
+  "gh" 'org-evil-motion-up-heading
   "{" 'org-evil-motion-backward-heading
   "}" 'org-evil-motion-forward-heading)
 

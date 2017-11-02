@@ -87,5 +87,9 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
   "Check the current region with `org-evil--regional-checkers'."
   (-each org-evil--regional-checkers 'funcall))
 
+(defmacro org-evil--save-point-on-error (&rest body)
+  "Execute BODY, but reset the position of point if an error is raised."
+  `(goto-char (save-excursion ,@body (point))))
+
 (provide 'org-evil-core)
 ;;; org-evil-core.el ends here
