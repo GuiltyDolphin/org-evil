@@ -25,7 +25,7 @@
 (require 'dash)
 (require 'evil)
 
-(define-minor-mode org-evil-motion-mode
+(org-evil--define-minor-mode org-evil-motion-mode
   "Minor-mode for moving around in Org files."
   :keymap (make-sparse-keymap))
 

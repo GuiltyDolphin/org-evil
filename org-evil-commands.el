@@ -26,7 +26,7 @@
 (require 'evil)
 (require 'org-evil-core)
 
-(define-minor-mode org-evil-command-mode
+(org-evil--define-minor-mode org-evil-command-mode
   "Minor-mode for general org-evil commands."
   :keymap (make-sparse-keymap))
 

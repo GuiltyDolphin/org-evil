@@ -35,7 +35,9 @@
   "Minor-mode for org-evil."
   :group 'org-evil
   (if org-evil-mode (org-evil--mode-initialise)
-    (monitor-disable 'org-evil-hook-monitor)))
+    (org-evil--mode-disable-internal)))
+
+(add-hook 'org-mode-hook 'org-evil--org-mode-hook-fn)
 
 (defun org-evil--mode-initialise ()
   "Perform additional initialisation for `org-evil-mode'."
@@ -53,7 +55,38 @@
     (and (monitor--enabled-p 'org-evil-hook-monitor)
          (monitor-disable 'org-evil-hook-monitor))))
 
-(add-hook 'org-mode-hook 'org-evil-mode)
+(defun org-evil--org-mode-hook-fn ()
+  "Ensure `org-evil-mode' is kept up-to-date with `org-mode'."
+  (if (eq major-mode 'org-mode)
+      (org-evil-mode t)
+    (org-evil-mode -1)))
+
+(defun org-evil--disable-all-org-evil-minor-modes ()
+  "Disable all org-evil minor modes for the current buffer."
+  (mapc (lambda (mode) (funcall mode -1)) org-evil--minor-modes))
+
+(defun org-evil--mode-disable-internal ()
+  "Clean up after org-evil."
+  (org-evil--disable-all-org-evil-minor-modes)
+  (monitor-disable 'org-evil-hook-monitor))
+
+(defvar org-evil--minor-modes nil
+  "Minor modes for org-evil.")
+
+(defmacro org-evil--define-minor-mode (mode doc &rest args)
+  "Define an org-evil minor mode MODE.
+DOC is the documentation as in `define-minor-mode'.
+
+ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
+  (declare (doc-string 2)
+           (debug (&define name string-or-null-p
+                           [&rest [keywordp sexp]]
+                           def-body)))
+  `(progn
+     (define-minor-mode ,mode ,doc ,@args)
+     (unless (member ',mode org-evil--minor-modes)
+       (push ',mode org-evil--minor-modes))))
+(put 'org-evil--define-minor-mode 'lisp-indent-function 'defun)
 
 (defvar org-evil--regional-checkers nil
   "Functions to be run when checking the current region.")
@@ -70,7 +103,7 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
                            def-body)))
   (let ((check-fn (intern (format "org-evil--check-%s" mode))))
     `(progn
-       (define-minor-mode ,mode ,doc ,@args)
+       (org-evil--define-minor-mode ,mode ,doc ,@args)
        (defun ,check-fn ()
          ,(format "Check whether %s should be activated in the current location." mode)
          (if ,pred (,mode) (when ,mode (,mode -1))))
