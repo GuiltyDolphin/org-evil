@@ -34,8 +34,24 @@
 (define-minor-mode org-evil-mode
   "Minor-mode for org-evil."
   :group 'org-evil
-  (if org-evil-mode (monitor-enable 'org-evil-hook-monitor)
+  (if org-evil-mode (org-evil--mode-initialise)
     (monitor-disable 'org-evil-hook-monitor)))
+
+(defun org-evil--mode-initialise ()
+  "Perform additional initialisation for `org-evil-mode'."
+  (monitor-enable 'org-evil-hook-monitor)
+  (add-hook 'buffer-list-update-hook
+            'org-evil--buffer-list-update-hook-fn))
+
+;; NOTE: Until monitor supports buffer-local monitors, we need
+;;       to handle ensuring the monitor doesn't become out-of-date.
+(defun org-evil--buffer-list-update-hook-fn ()
+  "Ensure state of org-evil is correct after a change of buffer."
+  (if org-evil-mode
+      (and (monitor--disabled-p 'org-evil-hook-monitor)
+           (monitor-enable 'org-evil-hook-monitor))
+    (and (monitor--enabled-p 'org-evil-hook-monitor)
+         (monitor-disable 'org-evil-hook-monitor))))
 
 (add-hook 'org-mode-hook 'org-evil-mode)
 
