@@ -66,8 +66,8 @@ PRED is checked after moving `point', and should be an un-quoted expression.
 ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
   (declare (doc-string 2)
            (debug (&define name string-or-null-p sexp
-			   [&rest [keywordp sexp]]
-			   def-body)))
+                           [&rest [keywordp sexp]]
+                           def-body)))
   (let ((check-fn (intern (format "org-evil--check-%s" mode))))
     `(progn
        (define-minor-mode ,mode ,doc ,@args)
@@ -75,7 +75,7 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
          ,(format "Check whether %s should be activated in the current location." mode)
          (if ,pred (,mode) (when ,mode (,mode -1))))
        (unless (member ',check-fn org-evil--regional-checkers)
-	 (push ',check-fn org-evil--regional-checkers)))))
+         (push ',check-fn org-evil--regional-checkers)))))
 (put 'org-evil--define-regional-minor-mode 'lisp-indent-function 'defun)
 
 (defvar org-evil--hook-ivar nil)
