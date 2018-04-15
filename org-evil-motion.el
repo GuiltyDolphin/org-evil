@@ -27,6 +27,7 @@
 
 (org-evil--define-minor-mode org-evil-motion-mode
   "Minor-mode for moving around in Org files."
+  t
   :keymap (make-sparse-keymap))
 
 (defun org-evil-motion--check-in-headings ()
@@ -202,8 +203,6 @@ Move to the current heading if COUNT is greater than the parent level."
   "gh" 'org-evil-motion-up-heading
   "{" 'org-evil-motion-backward-heading
   "}" 'org-evil-motion-forward-heading)
-
-(add-hook 'org-mode-hook 'org-evil-motion-mode)
 
 (provide 'org-evil-motion)
 ;;; org-evil-motion.el ends here

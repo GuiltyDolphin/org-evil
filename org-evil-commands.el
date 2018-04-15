@@ -28,6 +28,7 @@
 
 (org-evil--define-minor-mode org-evil-command-mode
   "Minor-mode for general org-evil commands."
+  t
   :keymap (make-sparse-keymap))
 
 (org-evil--define-regional-minor-mode org-evil-heading-mode
@@ -63,8 +64,6 @@ See also `org-evil-promote'."
   :motion nil
   (interactive "<r><c>")
   (funcall 'org-evil-promote beg end (- (or count 1))))
-
-(add-hook 'org-mode-hook 'org-evil-command-mode)
 
 (evil-define-minor-mode-key 'normal 'org-evil-heading-mode
   "<" 'org-evil-promote

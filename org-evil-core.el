@@ -41,6 +41,8 @@
 
 (defun org-evil--mode-initialise ()
   "Perform additional initialisation for `org-evil-mode'."
+  ;; enable default minor modes
+  (mapc 'funcall org-evil--default-minor-modes)
   (monitor-enable 'org-evil-hook-monitor)
   (add-hook 'buffer-list-update-hook
             'org-evil--buffer-list-update-hook-fn))
@@ -73,9 +75,16 @@
 (defvar org-evil--minor-modes nil
   "Minor modes for org-evil.")
 
-(defmacro org-evil--define-minor-mode (mode doc &rest args)
+(defvar org-evil--default-minor-modes nil
+  "Org-evil minor modes that should be enabled with `org-evil-mode'.")
+
+(defmacro org-evil--define-minor-mode
+    (mode doc &optional enabled-by-default &rest args)
   "Define an org-evil minor mode MODE.
 DOC is the documentation as in `define-minor-mode'.
+
+ENABLED-BY-DEFAULT (if non-NIL) specifies that MODE should
+be enabled whenever `org-evil-mode' is enabled.
 
 ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
   (declare (doc-string 2)
@@ -85,7 +94,10 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
   `(progn
      (define-minor-mode ,mode ,doc ,@args)
      (unless (member ',mode org-evil--minor-modes)
-       (push ',mode org-evil--minor-modes))))
+       (push ',mode org-evil--minor-modes))
+     (unless (and ,(not enabled-by-default)
+                  (member ',mode org-evil--minor-modes))
+       (push ',mode org-evil--default-minor-modes))))
 (put 'org-evil--define-minor-mode 'lisp-indent-function 'defun)
 
 (defvar org-evil--regional-checkers nil
@@ -103,7 +115,7 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
                            def-body)))
   (let ((check-fn (intern (format "org-evil--check-%s" mode))))
     `(progn
-       (org-evil--define-minor-mode ,mode ,doc ,@args)
+       (org-evil--define-minor-mode ,mode ,doc nil ,@args)
        (defun ,check-fn ()
          ,(format "Check whether %s should be activated in the current location." mode)
          (if ,pred (,mode) (when ,mode (,mode -1))))
