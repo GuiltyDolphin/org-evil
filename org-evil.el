@@ -5,7 +5,7 @@
 ;; URL: https://github.com/guiltydolphin/org-evil
 ;; Git-Repository: git://github.com/guiltydolphin/org-evil.git
 ;; Created: 2016-08-21
-;; Version: 0.1.0
+;; Version: 0.2.0
 ;; Keywords: convenience, evil, org
 ;; Package-Requires: ((dash "2.13.0") (evil "0") (monitor "0") (org "0"))
 
