@@ -45,7 +45,11 @@
   (mapc 'funcall org-evil--default-minor-modes)
   (monitor-enable 'org-evil-hook-monitor)
   (add-hook 'buffer-list-update-hook
-            'org-evil--buffer-list-update-hook-fn))
+            'org-evil--buffer-list-update-hook-fn)
+  ;; need to perform an initial check to make sure the
+  ;; correct regional modes activate, as point won't
+  ;; have changed yet
+  (org-evil--check-region))
 
 ;; NOTE: Until monitor supports buffer-local monitors, we need
 ;;       to handle ensuring the monitor doesn't become out-of-date.
