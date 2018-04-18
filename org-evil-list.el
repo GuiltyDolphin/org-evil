@@ -1,6 +1,6 @@
 ;;; org-evil-list.el --- org-evil list manipulation.
 
-;; Copyright (C) 2017 Ben Moon
+;; Copyright (C) 2017-2018 Ben Moon
 ;; Author: Ben Moon <software@guiltydolphin.com>
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,22 @@
   (org-beginning-of-item)
   (org-insert-item)
   (evil-insert-state 1))
+
+(defun org-evil-list-open-item-below ()
+  "Insert a new item below the current item and switch to Insert state."
+  (interactive)
+  (org-end-of-item)
+  (org-insert-item)
+  (evil-insert-state 1))
+
+(defun org-evil-list-open-item-or-insert-below (insert)
+  "With prefix argument INSERT, perform `org-evil-list-open-item-below'.
+
+Otherwise, perform `evil-open-below'."
+  (interactive "P")
+  (if arg
+      (org-evil-list-open-item-below)
+    (evil-open-below 1)))
 
 (evil-define-motion org-evil-list-beginning-of-item ()
   "Move to the beginning of the current item."
@@ -114,7 +130,8 @@ If BEG or END are NIL, no region is assumed and nothing happens."
 (evil-define-minor-mode-key 'normal 'org-evil-list-mode
   "<" 'org-evil-list-outdent-item-tree
   ">" 'org-evil-list-indent-item-tree
-  "O" 'org-evil-list-open-item-above)
+  "O" 'org-evil-list-open-item-above
+  "o" 'org-evil-list-open-item-or-insert-below)
 
 (provide 'org-evil-list)
 ;;; org-evil-list.el ends here
