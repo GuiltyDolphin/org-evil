@@ -39,5 +39,19 @@ Switching to org-mode when %s should cause
    (at-table
     "at the beginning of a table" "| table |"  org-evil-table-mode)))
 
+(ert-deftest org-evil-list-test-open-item-or-insert-below ()
+  "Tests for `org-evil-list-open-item-or-insert-below'."
+  :tags '(org-evil org-evil-list)
+  ;; without prefix
+  (with-temp-buffer
+    (insert "+ X")
+    (org-evil-list-open-item-or-insert-below nil)
+    (should (equal "+ X\n" (buffer-string))))
+  ;; with prefix
+  (with-temp-buffer
+    (insert "+ X")
+    (org-evil-list-open-item-or-insert-below t)
+    (should (equal "+ X\n+ " (buffer-string)))))
+
 (provide 'org-evil-tests)
 ;;; org-evil-tests.el ends here
