@@ -50,7 +50,7 @@
 
 Otherwise, perform `evil-open-below'."
   (interactive "P")
-  (if arg
+  (if insert
       (org-evil-list-open-item-below)
     (evil-open-below 1)))
 
