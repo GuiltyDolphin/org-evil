@@ -39,19 +39,33 @@ Switching to org-mode when %s should cause
    (at-table
     "at the beginning of a table" "| table |"  org-evil-table-mode)))
 
+(defmacro org-evil--test-with-buffer-text (text &rest body)
+  "In a buffer containing TEXT, run BODY, using the result of BODY as the result."
+  (declare (indent 1)
+           (debug (&define string-p def-body)))
+  `(with-temp-buffer
+     (insert ,text)
+     ,@body))
+
+(defmacro org-evil--test-with-expected-buffer-text
+    (initial expected &rest body)
+  "`buffer-string' of buffer with INITIAL text is EXPECTED after running BODY.
+
+INITIAL is the text that will initially be inserted into the buffer.
+
+EXPECTED is the text that should be in the buffer after running BODY with the buffer current."
+  `(org-evil--test-with-buffer-text ,initial
+     ,@body (should (equal ,expected (buffer-string)))))
+
 (ert-deftest org-evil-list-test-open-item-or-insert-below ()
   "Tests for `org-evil-list-open-item-or-insert-below'."
   :tags '(org-evil org-evil-list)
   ;; without prefix
-  (with-temp-buffer
-    (insert "+ X")
-    (org-evil-list-open-item-or-insert-below nil)
-    (should (equal "+ X\n" (buffer-string))))
+  (org-evil--test-with-expected-buffer-text "+ X" "+ X\n"
+    (org-evil-list-open-item-or-insert-below nil))
   ;; with prefix
-  (with-temp-buffer
-    (insert "+ X")
-    (org-evil-list-open-item-or-insert-below t)
-    (should (equal "+ X\n+ " (buffer-string)))))
+  (org-evil--test-with-expected-buffer-text "+ X" "+ X\n+ "
+    (org-evil-list-open-item-or-insert-below t)))
 
 (provide 'org-evil-tests)
 ;;; org-evil-tests.el ends here
