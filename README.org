@@ -59,36 +59,44 @@ so you can expect motions such as ~$~ to be similar to ~evil-end-of-line~,
 The following are the default motion bindings for =org-evil-motion=, use
 ~M-x describe-function BINDING~ for more information on each motion.
 
-- ~[[~ :: ~org-evil-motion-backward-block-begin~
-- ~]]~ :: ~org-evil-motion-forward-block-begin~
-- ~gH~ :: ~org-evil-motion-up-heading-top~
-- ~gh~ :: ~org-evil-motion-up-heading~
-- ~{~  :: ~org-evil-motion-backward-heading~
-- ~}~  :: ~org-evil-motion-forward-heading~
+| Key    | Binding                                |
+|--------+----------------------------------------|
+| ~[[~   | ~org-evil-motion-backward-block-begin~ |
+| ~]]~   | ~org-evil-motion-forward-block-begin~  |
+| ~gH~   | ~org-evil-motion-up-heading-top~       |
+| ~gh~   | ~org-evil-motion-up-heading~           |
+| ~{~    | ~org-evil-motion-backward-heading~     |
+| ~}~    | ~org-evil-motion-forward-heading~      |
 
 *** Block Motions
 
 The following bindings apply when inside an Org block:
 
-- ~(~ :: ~org-evil-block-beginning-of-block~
-- ~)~ :: ~org-evil-block-end-of-block~
+| Key | Binding                             |
+|-----+-------------------------------------|
+| ~(~ | ~org-evil-block-beginning-of-block~ |
+| ~)~ | ~org-evil-block-end-of-block~       |
 
 *** List Motions
 
 The following bindings apply when inside a list:
 
-- ~(~ :: ~org-evil-list-beginning-of-previous-item~
-- ~)~ :: ~org-evil-list-beginning-of-next-item~
-- ~^~ :: ~org-evil-list-beginning-of-item~
+| Key | Binding                                    |
+|-----+--------------------------------------------|
+| ~(~ | ~org-evil-list-beginning-of-previous-item~ |
+| ~)~ | ~org-evil-list-beginning-of-next-item~     |
+| ~^~ | ~org-evil-list-beginning-of-item~          |
 
 *** Table Motions
 
 The following bindings apply when inside an Org table:
 
-- ~gR~ :: ~org-evil-table-goto-line-from-bottom~
-- ~gc~ :: ~org-evil-table-goto-column~
-- ~gr~ :: ~org-evil-table-goto-line~
-- ~|~  :: ~org-evil-table-goto-column~
+| Key   | Binding                                |
+|-------+----------------------------------------|
+| ~gR~  | ~org-evil-table-goto-line-from-bottom~ |
+| ~gc~  | ~org-evil-table-goto-column~           |
+| ~gr~  | ~org-evil-table-goto-line~             |
+| \vert | ~org-evil-table-goto-column~           |
 
 ** Operators
 
@@ -96,27 +104,33 @@ The following bindings apply when inside an Org table:
 
 The following bindings apply when at a heading:
 
-- ~<~ :: ~org-evil-promote~
-- ~>~ :: ~org-evil-demote~
+| Key | Binding            |
+|-----+--------------------|
+| ~<~ | ~org-evil-promote~ |
+| ~>~ | ~org-evil-demote~  |
 
 *** List Operators
 
 The following bindings apply when in a list:
 
-- ~<~ :: ~org-evil-list-outdent-item-tree~
-- ~>~ :: ~org-evil-list-indent-item-tree~
-- ~O~ :: ~org-evil-list-open-item-above~
-- ~o~ :: ~org-evil-list-open-item-or-insert-below~
+| Key | Binding                                   |
+|-----+-------------------------------------------|
+| ~<~ | ~org-evil-list-outdent-item-tree~         |
+| ~>~ | ~org-evil-list-indent-item-tree~          |
+| ~O~ | ~org-evil-list-open-item-above~           |
+| ~o~ | ~org-evil-list-open-item-or-insert-below~ |
 
 *** Table Operators
 
 The following bindings apply when inside an Org table:
 
-- ~<~ :: ~org-evil-table-move-column-left~
-- ~>~ :: ~org-evil-table-move-column-right~
-- ~D~ :: ~org-evil-table-kill-row-to-end~
-- ~O~ :: ~org-evil-table-insert-row-above~
-- ~o~ :: ~org-evil-table-insert-row-below~
+| Key | Binding                            |
+|-----+------------------------------------|
+| ~<~ | ~org-evil-table-move-column-left~  |
+| ~>~ | ~org-evil-table-move-column-right~ |
+| ~D~ | ~org-evil-table-kill-row-to-end~   |
+| ~O~ | ~org-evil-table-insert-row-above~  |
+| ~o~ | ~org-evil-table-insert-row-below~  |
 
 ** Text Objects
 
@@ -124,8 +138,10 @@ The following bindings apply when inside an Org table:
 
 The following text objects are enabled within an Org block:
 
-- ~ab~ :: ~org-evil-block-a-block~
-- ~ib~ :: ~org-evil-block-inner-block~
+| Key  | Binding                      |
+|------+------------------------------|
+| ~ab~ | ~org-evil-block-a-block~     |
+| ~ib~ | ~org-evil-block-inner-block~ |
 
 * See Also
 
