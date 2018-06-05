@@ -62,16 +62,6 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
   `(org-evil--test-with-buffer-text ,initial
      ,@body (should (equal ,expected (buffer-string)))))
 
-(ert-deftest org-evil-list-test-open-item-or-insert-below ()
-  "Tests for `org-evil-list-open-item-or-insert-below'."
-  :tags '(org-evil org-evil-list)
-  ;; without prefix
-  (org-evil--test-with-expected-buffer-text "+ X" "+ X\n"
-    (org-evil-list-open-item-or-insert-below nil))
-  ;; with prefix
-  (org-evil--test-with-expected-buffer-text "+ X" "+ X\n+ "
-    (org-evil-list-open-item-or-insert-below t)))
-
 (ert-deftest org-evil-list-test-open-item-or-insert-above ()
   "Tests for `org-evil-list-open-item-or-insert-above'."
   :tags '(org-evil org-evil-list)
@@ -82,21 +72,15 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
   (org-evil--test-with-expected-buffer-text "+ X" "+ \n+ X"
     (org-evil-list-open-item-or-insert-above t)))
 
-(ert-deftest org-evil-heading-test-open-sibling-or-insert-below ()
-  "Tests for `org-evil-heading-open-sibling-or-insert-below'."
-  :tags '(org-evil org-evil-heading)
+(ert-deftest org-evil-list-test-open-item-or-insert-below ()
+  "Tests for `org-evil-list-open-item-or-insert-below'."
+  :tags '(org-evil org-evil-list)
   ;; without prefix
-  (org-evil--test-with-expected-buffer-text "* X" "* X\n"
-    (org-evil-heading-open-sibling-or-insert-below nil))
+  (org-evil--test-with-expected-buffer-text "+ X" "+ X\n"
+    (org-evil-list-open-item-or-insert-below nil))
   ;; with prefix
-  (org-evil--test-with-expected-buffer-text "* X" "* X\n* \n"
-    (org-evil-heading-open-sibling-or-insert-below t))
-  ;; in subheading
-  (org-evil--test-with-expected-buffer-text "* X\n\n** Y" "* X\n\n** Y\n\n** \n"
-    (org-evil-heading-open-sibling-or-insert-below t))
-  ;; higher-level heading after subheading
-  (org-evil--test-with-expected-buffer-text "* X\n\n** Y\n\n* Z" "* X\n\n** Y\n\n* Z\n\n* \n"
-    (org-evil-heading-open-sibling-or-insert-below t)))
+  (org-evil--test-with-expected-buffer-text "+ X" "+ X\n+ "
+    (org-evil-list-open-item-or-insert-below t)))
 
 (ert-deftest org-evil-heading-test-open-sibling-or-insert-above ()
   "Tests for `org-evil-heading-open-sibling-or-insert-above'."
@@ -113,6 +97,22 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
   ;; higher-level heading after subheading
   (org-evil--test-with-expected-buffer-text "* X\n\n** Y\n\n* Z" "* X\n\n** Y\n\n* \n\n* Z"
     (org-evil-heading-open-sibling-or-insert-above t)))
+
+(ert-deftest org-evil-heading-test-open-sibling-or-insert-below ()
+  "Tests for `org-evil-heading-open-sibling-or-insert-below'."
+  :tags '(org-evil org-evil-heading)
+  ;; without prefix
+  (org-evil--test-with-expected-buffer-text "* X" "* X\n"
+    (org-evil-heading-open-sibling-or-insert-below nil))
+  ;; with prefix
+  (org-evil--test-with-expected-buffer-text "* X" "* X\n* \n"
+    (org-evil-heading-open-sibling-or-insert-below t))
+  ;; in subheading
+  (org-evil--test-with-expected-buffer-text "* X\n\n** Y" "* X\n\n** Y\n\n** \n"
+    (org-evil-heading-open-sibling-or-insert-below t))
+  ;; higher-level heading after subheading
+  (org-evil--test-with-expected-buffer-text "* X\n\n** Y\n\n* Z" "* X\n\n** Y\n\n* Z\n\n* \n"
+    (org-evil-heading-open-sibling-or-insert-below t)))
 
 (provide 'org-evil-tests)
 ;;; org-evil-tests.el ends here
