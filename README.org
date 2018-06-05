@@ -118,7 +118,7 @@ The following bindings apply when in a list:
 |-----+-------------------------------------------|
 | ~<~ | ~org-evil-list-outdent-item-tree~         |
 | ~>~ | ~org-evil-list-indent-item-tree~          |
-| ~O~ | ~org-evil-list-open-item-above~           |
+| ~O~ | ~org-evil-list-open-item-or-insert-above~ |
 | ~o~ | ~org-evil-list-open-item-or-insert-below~ |
 
 *** Table Operators

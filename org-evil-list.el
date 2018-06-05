@@ -38,6 +38,15 @@
   (org-insert-item)
   (evil-insert-state 1))
 
+(defun org-evil-list-open-item-or-insert-above (insert)
+  "With prefix argument INSERT, perform `org-evil-list-open-item-above'.
+
+Otherwise, perform `evil-open-above'."
+  (interactive "P")
+  (if insert
+      (org-evil-list-open-item-above)
+    (evil-open-above 1)))
+
 (defun org-evil-list-open-item-below ()
   "Insert a new item below the current item and switch to Insert state."
   (interactive)
@@ -130,7 +139,7 @@ If BEG or END are NIL, no region is assumed and nothing happens."
 (evil-define-minor-mode-key 'normal 'org-evil-list-mode
   "<" 'org-evil-list-outdent-item-tree
   ">" 'org-evil-list-indent-item-tree
-  "O" 'org-evil-list-open-item-above
+  "O" 'org-evil-list-open-item-or-insert-above
   "o" 'org-evil-list-open-item-or-insert-below)
 
 (provide 'org-evil-list)

@@ -8,6 +8,8 @@
 
 ** Changed
 
++ Binding for opening item above now requires prefix argument
+
 + =README.org= now uses tables instead of lists to display
   bindings
 

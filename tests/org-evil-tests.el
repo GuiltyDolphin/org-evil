@@ -71,6 +71,16 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
   (org-evil--test-with-expected-buffer-text "+ X" "+ X\n+ "
     (org-evil-list-open-item-or-insert-below t)))
 
+(ert-deftest org-evil-list-test-open-item-or-insert-above ()
+  "Tests for `org-evil-list-open-item-or-insert-above'."
+  :tags '(org-evil org-evil-list)
+  ;; without prefix
+  (org-evil--test-with-expected-buffer-text "+ X" "\n+ X"
+    (org-evil-list-open-item-or-insert-above nil))
+  ;; with prefix
+  (org-evil--test-with-expected-buffer-text "+ X" "+ \n+ X"
+    (org-evil-list-open-item-or-insert-above t)))
+
 (ert-deftest org-evil-heading-test-open-sibling-or-insert-below ()
   "Tests for `org-evil-heading-open-sibling-or-insert-below'."
   :tags '(org-evil org-evil-heading)
