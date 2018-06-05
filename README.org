@@ -108,6 +108,7 @@ The following bindings apply when at a heading:
 |-----+-------------------------------------------------|
 | ~<~ | ~org-evil-promote~                              |
 | ~>~ | ~org-evil-demote~                               |
+| ~O~ | ~org-evil-heading-open-sibling-or-insert-above~ |
 | ~o~ | ~org-evil-heading-open-sibling-or-insert-below~ |
 
 *** List Operators

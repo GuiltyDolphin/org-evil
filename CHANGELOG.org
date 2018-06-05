@@ -4,6 +4,8 @@
 
 ** Added
 
++ Binding for inserting a sibling heading above current heading
+
 + Binding for inserting a sibling heading below current heading
 
 ** Changed

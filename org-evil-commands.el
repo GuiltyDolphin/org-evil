@@ -65,9 +65,31 @@ See also `org-evil-promote'."
   (interactive "<r><c>")
   (funcall 'org-evil-promote beg end (- (or count 1))))
 
+(defun org-evil-heading--beginning-of-heading-line ()
+  "Go to the beginning of the current heading."
+  (outline-back-to-heading))
+
 (defun org-evil-heading--end-of-heading-line ()
   "Go to the end of the current heading."
   (outline-end-of-heading))
+
+(defun org-evil-heading-open-sibling-above ()
+  "Insert a new heading above the current heading and switch to Insert state.
+
+The new heading has the same level as the current heading."
+  (interactive)
+  (org-evil-heading--beginning-of-heading-line)
+  (org-insert-heading)
+  (evil-insert-state 1))
+
+(defun org-evil-heading-open-sibling-or-insert-above (insert)
+  "With prefix argument INSERT, perform `org-evil-heading-open-sibling-above'.
+
+Otherwise, perform `evil-open-above'."
+  (interactive "P")
+  (if insert
+      (org-evil-heading-open-sibling-above)
+    (evil-open-above 1)))
 
 (defun org-evil-heading-open-sibling-below ()
   "Insert a new heading below the current heading and switch to Insert state.
@@ -90,6 +112,7 @@ Otherwise, perform `evil-open-below'."
 (evil-define-minor-mode-key 'normal 'org-evil-heading-mode
   "<" 'org-evil-promote
   ">" 'org-evil-demote
+  "O" 'org-evil-heading-open-sibling-or-insert-above
   "o" 'org-evil-heading-open-sibling-or-insert-below)
 
 (provide 'org-evil-commands)
