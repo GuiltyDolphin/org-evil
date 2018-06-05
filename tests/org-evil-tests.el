@@ -44,8 +44,12 @@ Switching to org-mode when %s should cause
   (declare (indent 1)
            (debug (&define string-p def-body)))
   `(with-temp-buffer
-     (insert ,text)
-     ,@body))
+     ;; make sure we have a consistent environment for the test
+     (let ((evil-auto-indent nil))
+       (insert ,text)
+       ;; Need to enable org-mode so some (org-mode) local variables get set
+       (org-mode)
+       ,@body)))
 
 (defmacro org-evil--test-with-expected-buffer-text
     (initial expected &rest body)
@@ -66,6 +70,22 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
   ;; with prefix
   (org-evil--test-with-expected-buffer-text "+ X" "+ X\n+ "
     (org-evil-list-open-item-or-insert-below t)))
+
+(ert-deftest org-evil-heading-test-open-sibling-or-insert-below ()
+  "Tests for `org-evil-heading-open-sibling-or-insert-below'."
+  :tags '(org-evil org-evil-heading)
+  ;; without prefix
+  (org-evil--test-with-expected-buffer-text "* X" "* X\n"
+    (org-evil-heading-open-sibling-or-insert-below nil))
+  ;; with prefix
+  (org-evil--test-with-expected-buffer-text "* X" "* X\n* \n"
+    (org-evil-heading-open-sibling-or-insert-below t))
+  ;; in subheading
+  (org-evil--test-with-expected-buffer-text "* X\n\n** Y" "* X\n\n** Y\n\n** \n"
+    (org-evil-heading-open-sibling-or-insert-below t))
+  ;; higher-level heading after subheading
+  (org-evil--test-with-expected-buffer-text "* X\n\n** Y\n\n* Z" "* X\n\n** Y\n\n* Z\n\n* \n"
+    (org-evil-heading-open-sibling-or-insert-below t)))
 
 (provide 'org-evil-tests)
 ;;; org-evil-tests.el ends here

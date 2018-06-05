@@ -2,6 +2,10 @@
 
 * Unreleased
 
+** Added
+
++ Binding for inserting a sibling heading below current heading
+
 ** Changed
 
 + =README.org= now uses tables instead of lists to display

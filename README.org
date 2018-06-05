@@ -104,10 +104,11 @@ The following bindings apply when inside an Org table:
 
 The following bindings apply when at a heading:
 
-| Key | Binding            |
-|-----+--------------------|
-| ~<~ | ~org-evil-promote~ |
-| ~>~ | ~org-evil-demote~  |
+| Key | Binding                                         |
+|-----+-------------------------------------------------|
+| ~<~ | ~org-evil-promote~                              |
+| ~>~ | ~org-evil-demote~                               |
+| ~o~ | ~org-evil-heading-open-sibling-or-insert-below~ |
 
 *** List Operators
 
