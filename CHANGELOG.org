@@ -2,6 +2,8 @@
 
 * Unreleased
 
+* 0.4.0 - 2018-06-11
+
 ** Added
 
 + Binding for inserting a sibling heading above current heading
