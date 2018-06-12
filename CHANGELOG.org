@@ -2,6 +2,8 @@
 
 * Unreleased
 
+* 0.4.1 - 2018-06-12
+
 ** Fixed
 
 + ~org-evil-table-number-of-columns~ not working due to changes
