@@ -114,5 +114,13 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
   (org-evil--test-with-expected-buffer-text "* X\n\n** Y\n\n* Z" "* X\n\n** Y\n\n* Z\n\n* \n"
     (org-evil-heading-open-sibling-or-insert-below t)))
 
+(ert-deftest org-evil-table-test-number-of-columns ()
+  "Tests for `org-evil-table-number-of-columns'."
+  :tags '(org-evil org-evil-table)
+  (org-evil--test-with-buffer-text "| |"
+    (should (equal 1 (org-evil-table-number-of-columns))))
+  (org-evil--test-with-buffer-text "| | | | | |"
+    (should (equal 5 (org-evil-table-number-of-columns)))))
+
 (provide 'org-evil-tests)
 ;;; org-evil-tests.el ends here

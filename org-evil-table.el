@@ -68,7 +68,8 @@
 
 (defun org-evil-table-number-of-columns ()
   "Return the number of columns in the current table."
-  (length (org-table-get-specials)))
+  (org-table-analyze)
+  org-table-current-ncol)
 
 (evil-define-motion org-evil-table-goto-column (n)
   "Go to the Nth field in the current row.
