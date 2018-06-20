@@ -113,6 +113,10 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
     (org-evil-heading-open-sibling-or-insert-below t))
   ;; higher-level heading after subheading
   (org-evil--test-with-expected-buffer-text "* X\n\n** Y\n\n* Z" "* X\n\n** Y\n\n* Z\n\n* \n"
+    (org-evil-heading-open-sibling-or-insert-below t))
+  ;; with content
+  (org-evil--test-with-expected-buffer-text "* X\nContent" "* X\nContent\n* \n"
+    (goto-char (point-min))
     (org-evil-heading-open-sibling-or-insert-below t)))
 
 (ert-deftest org-evil-table-test-number-of-columns ()

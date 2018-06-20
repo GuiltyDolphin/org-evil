@@ -92,12 +92,12 @@ Otherwise, perform `evil-open-above'."
     (evil-open-above 1)))
 
 (defun org-evil-heading-open-sibling-below ()
-  "Insert a new heading below the current heading and switch to Insert state.
+  "Insert a new heading after the current subtree and switch to Insert state.
 
 The new heading has the same level as the current heading."
   (interactive)
   (org-evil-heading--end-of-heading-line)
-  (org-insert-heading)
+  (org-insert-heading '(4))
   (evil-insert-state 1))
 
 (defun org-evil-heading-open-sibling-or-insert-below (insert)
