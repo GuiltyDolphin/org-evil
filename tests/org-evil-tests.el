@@ -61,6 +61,7 @@ INITIAL is the text that will initially be inserted into the buffer.
 EXPECTED is the text that should be in the buffer after running BODY with the buffer current."
   `(org-evil--test-with-buffer-text ,initial
      ,@body (should (equal ,expected (buffer-string)))))
+(put 'org-evil--test-with-expected-buffer-text 'lisp-indent-function 2)
 
 (ert-deftest org-evil-list-test-open-item-or-insert-above ()
   "Tests for `org-evil-list-open-item-or-insert-above'."
