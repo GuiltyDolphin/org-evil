@@ -131,12 +131,12 @@ If BEG or END are NIL, no region is assumed and nothing happens."
            (count (abs count)))
       (--dotimes count (funcall indenter)))))
 
-(evil-define-minor-mode-key 'motion 'org-evil-list-mode
+(org-evil--define-key 'motion 'org-evil-list-mode
   "(" 'org-evil-list-beginning-of-previous-item
   ")" 'org-evil-list-beginning-of-next-item
   "^" 'org-evil-list-beginning-of-item)
 
-(evil-define-minor-mode-key 'normal 'org-evil-list-mode
+(org-evil--define-key 'normal 'org-evil-list-mode
   "<" 'org-evil-list-outdent-item-tree
   ">" 'org-evil-list-indent-item-tree
   "O" 'org-evil-list-open-item-or-insert-above

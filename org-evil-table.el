@@ -206,22 +206,22 @@ By default the last line."
   (let ((count (or count 1)))
     (--dotimes count (org-table-move-column-left))))
 
-(evil-define-minor-mode-key 'motion 'org-evil-table-mode
+(org-evil--define-key 'motion 'org-evil-table-mode
   "|" 'org-evil-table-goto-column)
 
-(evil-define-minor-mode-key '(motion operator visual) 'org-evil-table-mode
+(org-evil--define-key '(motion operator visual) 'org-evil-table-mode
   "gc" 'org-evil-table-goto-column
   "gr" 'org-evil-table-goto-line
   "gR" 'org-evil-table-goto-line-from-bottom)
 
-(evil-define-minor-mode-key 'normal 'org-evil-table-mode
+(org-evil--define-key 'normal 'org-evil-table-mode
   "<" 'org-evil-table-move-column-left
   ">" 'org-evil-table-move-column-right
   "D" 'org-evil-table-kill-row-to-end
   "O" 'org-evil-table-insert-row-above
   "o" 'org-evil-table-insert-row-below)
 
-(evil-define-minor-mode-key 'visual 'org-evil-table-mode
+(org-evil--define-key 'visual 'org-evil-table-mode
   "i|" 'org-evil-table-field)
 
 (provide 'org-evil-table)

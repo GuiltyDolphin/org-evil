@@ -156,5 +156,16 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
   "Execute BODY, but reset the position of point if an error is raised."
   `(goto-char (save-excursion ,@body (point))))
 
+(defun org-evil--define-key (state mode key def &rest bindings)
+  "Create a STATE binding in MODE from KEY to DEF.
+BINDINGS should be a list of additional bindings.
+
+This wrapper ensures that keybindings are inserted
+into (and can thus be viewed from) their respective keymaps.
+
+See also `evil-define-key' and `evil-define-minor-mode-key'."
+  (apply 'evil-define-minor-mode-key state mode key def bindings)
+  (apply 'evil-define-key* state (symbol-value (intern (format "%s-map" mode))) key def bindings))
+
 (provide 'org-evil-core)
 ;;; org-evil-core.el ends here

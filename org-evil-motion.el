@@ -184,7 +184,7 @@ Move to the current heading if COUNT is greater than the parent level."
   (interactive "<c>")
   (-cons-to-list (org-evil-block-boundaries)))
 
-(evil-define-minor-mode-key 'motion 'org-evil-block-mode
+(org-evil--define-key 'motion 'org-evil-block-mode
   "(" 'org-evil-block-beginning-of-block
   ")" 'org-evil-block-end-of-block)
 
@@ -192,11 +192,11 @@ Move to the current heading if COUNT is greater than the parent level."
 ;; don't configure correctly when binding multiple states
 ;; at once.
 (dolist (mode '(operator visual))
-  (evil-define-minor-mode-key mode 'org-evil-block-mode
+  (org-evil--define-key mode 'org-evil-block-mode
     "ib" 'org-evil-block-inner-block
     "ab" 'org-evil-block-a-block))
 
-(evil-define-minor-mode-key 'motion 'org-evil-motion-mode
+(org-evil--define-key 'motion 'org-evil-motion-mode
   "[[" 'org-evil-motion-backward-block-begin
   "]]" 'org-evil-motion-forward-block-begin
   "gH" 'org-evil-motion-up-heading-top

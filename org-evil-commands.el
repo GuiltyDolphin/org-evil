@@ -109,7 +109,7 @@ Otherwise, perform `evil-open-below'."
       (org-evil-heading-open-sibling-below)
     (evil-open-below 1)))
 
-(evil-define-minor-mode-key 'normal 'org-evil-heading-mode
+(org-evil--define-key 'normal 'org-evil-heading-mode
   "<" 'org-evil-promote
   ">" 'org-evil-demote
   "O" 'org-evil-heading-open-sibling-or-insert-above
