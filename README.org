@@ -8,6 +8,7 @@ Org-evil provides Org-mode extensions for Evil users.
 
 The following installation methods are available:
 
+- [[Cask]]
 - [[Manual]]
 - [[el-get]]
 - [[MELPA]]
@@ -34,6 +35,11 @@ To your init file to enable org-evil for future sessions.
 To check that org-evil is working, navigate to a buffer
 with org as its major mode, then run ~C-h v org-evil-mode RET~,
 you should see an indication that the value of the variable is ~t~.
+
+** Cask
+
+Simply add ~(depends-on "org-evil")~ to your =Cask= file, then
+run ~cask install~.
 
 ** el-get
 
