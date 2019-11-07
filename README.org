@@ -8,6 +8,10 @@ Org-evil provides Org-mode extensions for Evil users.
 
 The following installation methods are available:
 
+- [[Manual]]
+- [[el-get]]
+- [[MELPA]]
+
 ** Manual
 
 To install org-evil, you need to have the following
