@@ -2,6 +2,13 @@
 
 * Unreleased
 
+** Changed
+
+- =dash= and =org= package requirements updated to include
+  version number
+  - =dash= :: 2.16.0
+  - =org=  :: 9.2.6
+
 ** Fixed
 
 + keybindings will now display in their respective keymaps
