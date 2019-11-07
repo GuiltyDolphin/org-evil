@@ -8,6 +8,8 @@
 
 (require 'ert)
 
+(require 'org-evil)
+
 (defmacro org-evil--test-def-init-test (name descr init-text mode)
   "Test activation of an `org-evil' mode when enabling `org-mode'.
 
