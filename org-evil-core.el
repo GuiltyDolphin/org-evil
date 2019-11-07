@@ -97,11 +97,9 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
                            def-body)))
   `(progn
      (define-minor-mode ,mode ,doc ,@args)
-     (unless (member ',mode org-evil--minor-modes)
-       (push ',mode org-evil--minor-modes))
-     (unless (and ,(not enabled-by-default)
-                  (member ',mode org-evil--minor-modes))
-       (push ',mode org-evil--default-minor-modes))))
+     (add-to-list 'org-evil--minor-modes ',mode)
+     (unless ,(not enabled-by-default)
+       (add-to-list 'org-evil--default-minor-modes ',mode))))
 (put 'org-evil--define-minor-mode 'lisp-indent-function 'defun)
 
 (defvar org-evil--regional-checkers nil
@@ -123,8 +121,7 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
        (defun ,check-fn ()
          ,(format "Check whether %s should be activated in the current location." mode)
          (if ,pred (,mode) (when ,mode (,mode -1))))
-       (unless (member ',check-fn org-evil--regional-checkers)
-         (push ',check-fn org-evil--regional-checkers)))))
+       (add-to-list 'org-evil--regional-checkers ',check-fn))))
 (put 'org-evil--define-regional-minor-mode 'lisp-indent-function 'defun)
 
 (defvar org-evil--hook-ivar nil)
