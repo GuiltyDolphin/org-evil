@@ -2,6 +2,12 @@
 
 * Unreleased
 
+** Added
+
+- Makefile
+  - =build= rule
+  - =test= rule
+
 ** Changed
 
 - =dash= and =org= package requirements updated to include

@@ -145,6 +145,13 @@ The following text objects are enabled within an Org block:
 | ~ab~ | ~org-evil-block-a-block~     |
 | ~ib~ | ~org-evil-block-inner-block~ |
 
+* Contributing
+
+** Testing
+
+Before testing, first run =cask install= to ensure the
+appropriate dependencies are installed, then use =make test=.
+
 * See Also
 
 + [[https://github.com/Somelauw/evil-org-mode][evil-org-mode by Somelauw]] - a continuation of
