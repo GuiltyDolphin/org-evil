@@ -1,6 +1,6 @@
 ;;; org-evil-core.el --- org-evil core variables and functions.
 
-;; Copyright (C) 2016-2018 Ben Moon
+;; Copyright (C) 2016-2019 Ben Moon
 ;; Author: Ben Moon <software@guiltydolphin.com>
 
 ;; This program is free software: you can redistribute it and/or modify

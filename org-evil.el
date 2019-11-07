@@ -1,6 +1,6 @@
 ;;; org-evil.el --- Evil extensions for Org.
 
-;; Copyright (C) 2016-2018 Ben Moon
+;; Copyright (C) 2016-2019 Ben Moon
 ;; Author: Ben Moon <software@guiltydolphin.com>
 ;; URL: https://github.com/guiltydolphin/org-evil
 ;; Git-Repository: git://github.com/guiltydolphin/org-evil.git
