@@ -8,4 +8,5 @@
  (depends-on "ecukes")
  (depends-on "el-mock")
  (depends-on "ert-runner")
- (depends-on "f"))
+ (depends-on "f")
+ (depends-on "org"))
