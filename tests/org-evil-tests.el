@@ -10,6 +10,40 @@
 
 (require 'org-evil)
 
+(defun org-evil-test--parse-keyword-value-args (args &optional special-keys)
+  "Parse ARGS as a series of keyword value pairs.
+
+If SPECIAL-KEYS is specified, it should be a series of keyword
+symbols to keep separate from the main keyword list, and will be
+returned as a separate element.
+
+The result is in the format (keyword-args special-args non-keyword-args)."
+  (let (keys specials)
+    (while (keywordp (car args))
+      (let ((k (pop args))
+            (v (pop args)))
+        (if (memq k special-keys)
+            (progn (push k specials) (push v specials))
+          (push k keys)
+          (push v keys))))
+    (list (nreverse keys) (nreverse specials) args)))
+
+(defmacro org-evil-test--deftest (name docstring &rest args)
+  "Define NAME as a test.
+
+See `ert-deftest' for the meaning of DOCSTRING and ARGS."
+  (declare (debug (&define :name test
+                           name sexp [&optional stringp]
+			   [&rest keywordp sexp] def-body))
+           (doc-string 3)
+           (indent 2))
+  (pcase-let* ((`(,keys ,specials ,body) (org-evil-test--parse-keyword-value-args args '(:expected-result :tags))))
+    `(ert-deftest ,name ,docstring ,@specials
+                  ;; ensure evil state messages don't get printed to standard output
+                  (let ((evil-insert-state-message nil))
+                    ,@keys
+                    ,@body))))
+
 (defmacro org-evil--test-def-init-test (name descr init-text mode)
   "Test activation of an `org-evil' mode when enabling `org-mode'.
 
@@ -75,7 +109,7 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
     (fundamental-mode)
     (should-not (memq #'org-evil--post-command post-command-hook))))
 
-(ert-deftest org-evil-list-test-open-item-or-insert-above ()
+(org-evil-test--deftest org-evil-list-test-open-item-or-insert-above ()
   "Tests for `org-evil-list-open-item-or-insert-above'."
   :tags '(org-evil org-evil-list)
   ;; without prefix
@@ -85,7 +119,7 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
   (org-evil--test-with-expected-buffer-text "+ X" "+ \n+ X"
     (org-evil-list-open-item-or-insert-above t)))
 
-(ert-deftest org-evil-list-test-open-item-or-insert-below ()
+(org-evil-test--deftest org-evil-list-test-open-item-or-insert-below ()
   "Tests for `org-evil-list-open-item-or-insert-below'."
   :tags '(org-evil org-evil-list)
   ;; without prefix
@@ -95,7 +129,7 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
   (org-evil--test-with-expected-buffer-text "+ X" "+ X\n+ "
     (org-evil-list-open-item-or-insert-below t)))
 
-(ert-deftest org-evil-heading-test-open-sibling-or-insert-above ()
+(org-evil-test--deftest org-evil-heading-test-open-sibling-or-insert-above ()
   "Tests for `org-evil-heading-open-sibling-or-insert-above'."
   :tags '(org-evil org-evil-heading)
   ;; without prefix
@@ -111,7 +145,7 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
   (org-evil--test-with-expected-buffer-text "* X\n\n** Y\n\n* Z" "* X\n\n** Y\n\n* \n\n* Z"
     (org-evil-heading-open-sibling-or-insert-above t)))
 
-(ert-deftest org-evil-heading-test-open-sibling-or-insert-below ()
+(org-evil-test--deftest org-evil-heading-test-open-sibling-or-insert-below ()
   "Tests for `org-evil-heading-open-sibling-or-insert-below'."
   :tags '(org-evil org-evil-heading)
   ;; without prefix
