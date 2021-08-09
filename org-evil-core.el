@@ -22,7 +22,6 @@
 ;;;
 ;;; Code:
 
-(require 'monitor)
 (require 'org)
 
 (defgroup org-evil nil
@@ -44,23 +43,10 @@
   "Perform additional initialisation for `org-evil-mode'."
   ;; enable default minor modes
   (mapc 'funcall org-evil--default-minor-modes)
-  (monitor-enable 'org-evil-hook-monitor)
-  (add-hook 'buffer-list-update-hook
-            'org-evil--buffer-list-update-hook-fn)
-  ;; need to perform an initial check to make sure the
-  ;; correct regional modes activate, as point won't
-  ;; have changed yet
+  (org-evil--init-hooks)
+  ;; need to perform an initial check to make sure the correct
+  ;; regional modes are active when the mode loads
   (org-evil--check-region))
-
-;; NOTE: Until monitor supports buffer-local monitors, we need
-;;       to handle ensuring the monitor doesn't become out-of-date.
-(defun org-evil--buffer-list-update-hook-fn ()
-  "Ensure state of org-evil is correct after a change of buffer."
-  (if org-evil-mode
-      (and (monitor--disabled-p 'org-evil-hook-monitor)
-           (monitor-enable 'org-evil-hook-monitor))
-    (and (monitor--enabled-p 'org-evil-hook-monitor)
-         (monitor-disable 'org-evil-hook-monitor))))
 
 (defun org-evil--org-mode-hook-fn ()
   "Ensure `org-evil-mode' is kept up-to-date with `org-mode'."
@@ -74,8 +60,7 @@
 
 (defun org-evil--mode-disable-internal ()
   "Clean up after org-evil."
-  (org-evil--disable-all-org-evil-minor-modes)
-  (monitor-disable 'org-evil-hook-monitor))
+  (org-evil--disable-all-org-evil-minor-modes))
 
 (defvar org-evil--minor-modes nil
   "Minor modes for org-evil.")
@@ -125,27 +110,6 @@ ARGS should be the same as in `define-minor-mode' (bar MODE and DOC)."
        (add-to-list 'org-evil--regional-checkers ',check-fn))))
 (put 'org-evil--define-regional-minor-mode 'lisp-indent-function 'defun)
 
-(defvar org-evil--hook-ivar nil)
-
-(define-monitor 'org-evil-hook-monitor 'hook
-  "Org-evil monitor for hooks."
-  :hook-ivar 'org-evil--hook-ivar)
-
-(defvar org-evil--post-command-instance
-  (monitor 'org-evil-hook-monitor
-    :hook 'post-command-hook
-    :trigger 'org-evil--check-point))
-
-(defvar org-evil--point-check-instance
-  (monitor 'expression-value
-    :expr '(point)
-    :pred '/=
-    :trigger 'org-evil--check-region))
-
-(defun org-evil--check-point ()
-  "Check the current point for region change."
-  (monitor-run-monitor-option 'expression-value :check org-evil--point-check-instance))
-
 (defun org-evil--check-region ()
   "Check the current region with `org-evil--regional-checkers'."
   (-each org-evil--regional-checkers 'funcall))
@@ -164,6 +128,16 @@ into (and can thus be viewed from) their respective keymaps.
 See also `evil-define-key' and `evil-define-minor-mode-key'."
   (apply 'evil-define-minor-mode-key state mode key def bindings)
   (apply 'evil-define-key* state (symbol-value (intern (format "%s-map" mode))) key def bindings))
+
+(defun org-evil--post-command ()
+  "Perform regional checking after running commands with `org-evil-mode' enabled."
+  (if (not (derived-mode-p 'org-mode))
+      (org-evil-mode -1)
+    (org-evil--check-region)))
+
+(defun org-evil--init-hooks ()
+  "Initialize hooks for `org-evil-mode'."
+  (add-hook 'post-command-hook #'org-evil--post-command nil t))
 
 (provide 'org-evil-core)
 ;;; org-evil-core.el ends here

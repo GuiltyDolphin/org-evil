@@ -7,7 +7,7 @@
 ;; Created: 2016-08-21
 ;; Version: 0.5.0
 ;; Keywords: convenience, evil, org
-;; Package-Requires: ((dash "2.19.0") (evil "0") (monitor "0") (org "9.4.4"))
+;; Package-Requires: ((dash "2.19.0") (evil "0") (org "9.4.4"))
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by

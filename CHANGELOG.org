@@ -18,6 +18,11 @@
 ** Fixed
 
 + keybindings will now display in their respective keymaps
++ regional checking for =org-evil= minor modes is more robust
+
+** Removed
+
+- dependency on =monitor=
 
 * 0.5.0 - 2018-06-20
 
