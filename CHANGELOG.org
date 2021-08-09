@@ -19,8 +19,8 @@
 
 ** Fixed
 
-+ keybindings will now display in their respective keymaps
-+ regional checking for =org-evil= minor modes is more robust
+- keybindings will now display in their respective keymaps
+- regional checking for =org-evil= minor modes is more robust
 
 ** Removed
 
@@ -30,45 +30,45 @@
 
 ** Changed
 
-+ ~org-evil-heading-open-sibling-or-insert-below~ now respects
+- ~org-evil-heading-open-sibling-or-insert-below~ now respects
   subtree content
 
 * 0.4.1 - 2018-06-12
 
 ** Fixed
 
-+ ~org-evil-table-number-of-columns~ not working due to changes
+- ~org-evil-table-number-of-columns~ not working due to changes
   to Org
 
 * 0.4.0 - 2018-06-11
 
 ** Added
 
-+ Binding for inserting a sibling heading above current heading
+- Binding for inserting a sibling heading above current heading
 
-+ Binding for inserting a sibling heading below current heading
+- Binding for inserting a sibling heading below current heading
 
 ** Changed
 
-+ Binding for opening item above now requires prefix argument
+- Binding for opening item above now requires prefix argument
 
-+ =README.org= now uses tables instead of lists to display
+- =README.org= now uses tables instead of lists to display
   bindings
 
 * 0.3.1 - 2018-04-18
 
 ** Fixed
 
-+ Use of incorrect variable name that prevented
+- Use of incorrect variable name that prevented
   ~org-evil-list-open-item-or-insert-below~ from working
 
 * 0.3.0 - 2018-04-18
 
 ** Added
 
-+ Binding for inserting list items below current item
+- Binding for inserting list items below current item
 
 ** Fixed
 
-+ Regional minor modes not activating when switching to
+- Regional minor modes not activating when switching to
   ~org-mode~ without moving point
