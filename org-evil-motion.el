@@ -1,6 +1,6 @@
 ;;; org-evil-motion.el --- org-evil general motion.
 
-;; Copyright (C) 2016-2019 Ben Moon
+;; Copyright (C) 2016-2019, 2021 Ben Moon
 ;; Author: Ben Moon <software@guiltydolphin.com>
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -125,12 +125,15 @@ Move to the current heading if COUNT is greater than the parent level."
   :type line
   (--dotimes (or count 1) (org-evil--save-point-on-error (org-previous-block 1))))
 
+(defun org-evil--element-is-block-p (element)
+  "Non-NIL if ELEMENT is a block element."
+  (memq (org-element-type element)
+        '(center-block comment-block dynamic-block example-block export-block
+			           quote-block special-block src-block verse-block)))
+
 (defun org-evil-in-block-p ()
   "Non-nil when point belongs to a block."
-  (let* ((case-fold-search t)
-	 (blockp (org-between-regexps-p "^[ \t]*#\\+begin_.*"
-					"^[ \t]*#\\+end_.*")))
-    blockp))
+  (org-evil--element-is-block-p (org-element-at-point)))
 
 (org-evil--define-regional-minor-mode org-evil-block-mode
   "Minor-mode active when in an Org block."

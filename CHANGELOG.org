@@ -2,6 +2,10 @@
 
 * Unreleased
 
+** Fixed
+
+- invalid blocks no longer determined to be blocks
+
 * 0.6.0 - 2021-08-09
 
 ** Added

@@ -251,7 +251,12 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
   (org-evil--test-with-buffer-text "#+BEGIN_EXAMPLE\nTest\n#+END_EXAMPLE\nTest"
     (should-not org-evil-block-mode)
     (execute-kbd-macro "gg")
-    (should org-evil-block-mode)))
+    (should org-evil-block-mode))
+
+  ;; not a valid block
+  (org-evil--test-with-buffer-text "#+BEGIN_\nTest\n#+END_"
+    (execute-kbd-macro "k")
+    (should-not org-evil-block-mode)))
 
 (ert-deftest org-evil-table-test-number-of-columns ()
   "Tests for `org-evil-table-number-of-columns'."
