@@ -12,8 +12,8 @@
 
 - =dash= and =org= package requirements updated to include
   version number
-  - =dash= :: 2.16.0
-  - =org=  :: 9.2.6
+  - =dash= :: 2.19.0
+  - =org=  :: 9.4.4
 
 ** Fixed
 
