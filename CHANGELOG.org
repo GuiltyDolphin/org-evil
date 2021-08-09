@@ -6,6 +6,8 @@
 
 - Makefile
   - =build= rule
+  - =clean= rule
+  - =install= rule
   - =test= rule
 
 ** Changed
