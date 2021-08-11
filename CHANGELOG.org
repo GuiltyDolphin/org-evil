@@ -2,6 +2,13 @@
 
 * Unreleased
 
+** Added
+
+- bindings for interacting with text markup text objects
+- text objects =org-evil-text-markup-inner-X= and
+  =org-evil-text-markup-outer-X= where =X= is =bold=, =code=,
+  =italic=, =strike-through=, =underline=, or =verbatim=
+
 ** Fixed
 
 - invalid blocks no longer determined to be blocks

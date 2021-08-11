@@ -145,6 +145,26 @@ The following bindings apply when inside an Org table:
 
 ** Text Objects
 
+*** General Text Objects
+
+The following text objects are available whenever
+=org-evil-motion-mode= is enabled:
+
+| Key  | Binding                                     |
+|------+---------------------------------------------|
+| ~a*~ | ~org-evil-text-markup-outer-bold~           |
+| ~i*~ | ~org-evil-text-markup-inner-bold~           |
+| ~a+~ | ~org-evil-text-markup-outer-strike-through~ |
+| ~i+~ | ~org-evil-text-markup-inner-strike-through~ |
+| ~a/~ | ~org-evil-text-markup-outer-italic~         |
+| ~i/~ | ~org-evil-text-markup-inner-italic~         |
+| ~a=~ | ~org-evil-text-markup-outer-verbatim~       |
+| ~i=~ | ~org-evil-text-markup-inner-verbatim~       |
+| ~a_~ | ~org-evil-text-markup-outer-underline~      |
+| ~i_~ | ~org-evil-text-markup-inner-underline~      |
+| =a~= | ~org-evil-text-markup-outer-code~           |
+| =i~= | ~org-evil-text-markup-inner-code~           |
+
 *** Block Text Objects
 
 The following text objects are enabled within an Org block:

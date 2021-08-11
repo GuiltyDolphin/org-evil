@@ -24,6 +24,7 @@
 
 (require 'dash)
 (require 'evil)
+(require 'org-element)
 
 (org-evil--define-minor-mode org-evil-motion-mode
   "Minor-mode for moving around in Org files."
@@ -198,6 +199,82 @@ Move to the current heading if COUNT is greater than the parent level."
   (org-evil--define-key mode 'org-evil-block-mode
     "ib" 'org-evil-block-inner-block
     "ab" 'org-evil-block-a-block))
+
+(defvar org-evil-text-markup-types
+  '(bold code italic strike-through underline verbatim)
+  "Available markup types for Org.")
+
+(defun org-evil--markup-to-markup-char (type)
+  "Return the markup character associated with markup TYPE."
+  (cond
+   ((eq type 'bold) "*")
+   ((eq type 'code) "~")
+   ((eq type 'italic) "/")
+   ((eq type 'strike-through) "+")
+   ((eq type 'underline) "_")
+   ((eq type 'verbatim) "=")
+   (t (error "Invalid markup type: %s" type))))
+
+(defun org-evil-text-markup--get-markup-object (type)
+  "Get the Org object at point representing inline markup for TYPE."
+  (let ((markup-char-re (regexp-quote (org-evil--markup-to-markup-char type))))
+    (save-match-data
+      (save-excursion
+        (when (or (re-search-backward markup-char-re (line-beginning-position -2) t) (looking-at markup-char-re))
+          (org-element--object-lex (list type)))))))
+
+(defun org-evil-in-text-markup-p (type)
+  "Non-NIL when point belongs to text markup of the given TYPE."
+  (org-evil-text-markup--get-markup-object type))
+
+(defun org-evil-text-markup-boundaries (type)
+  "Return the '(START . END) position of the current text markup of TYPE.
+
+TYPE is a markup symbol present in `org-evil-text-markup-types'."
+  (-when-let ((_ (&plist :begin beg :end end :post-blank post-blank)) (org-evil-text-markup--get-markup-object type)) (cons beg (- end post-blank))))
+
+(defun org-evil-text-markup--is-simple-text-markup (type)
+  "Non-NIL if TYPE is simple text markup.
+
+By default, Org treats code and verbatim as simple markup.
+
+Simple text markup cannot contain other text markup."
+  (memq type '(code verbatim)))
+
+(defun org-evil-text-markup-content-boundaries (type)
+  "Return the '(START . END) position of the contents of TYPE text markup."
+  ;; simple text markup has no contents begin/end, so we need to treat it specially
+  (if (org-evil-text-markup--is-simple-text-markup type)
+      (-when-let ((beg . end) (org-evil-text-markup-boundaries type))
+        (cons (1+ beg) (1- end)))
+    (-when-let ((_ (&plist :contents-begin beg :contents-end end)) (org-evil-text-markup--get-markup-object type)) (cons beg end))))
+
+(defun org-evil-text-markup--define-markup-text-object (type)
+  "Define appropriate text objects for representing inline markup of TYPE."
+  (let ((inner-name (intern (format "org-evil-text-markup-inner-%s" type)))
+        (outer-name (intern (format "org-evil-text-markup-outer-%s" type)))
+        (inner-desc (format "Select inside %s text markup." type))
+        (outer-desc (format "Select around %s text markup." type))
+        (char (make-symbol "char")))
+    (eval `(progn
+       (evil-define-text-object ,outer-name (count)
+         ,outer-desc
+         (interactive "<c>")
+         (-cons-to-list (org-evil-text-markup-boundaries (quote ,type))))
+
+       (evil-define-text-object ,inner-name (count)
+         ,inner-desc
+         :type exclusive
+         (interactive "<c>")
+         (-cons-to-list (org-evil-text-markup-content-boundaries (quote ,type))))
+
+       (let ((,char (org-evil--markup-to-markup-char (quote ,type))))
+         (dolist (mode '(operator visual))
+           (org-evil--define-key mode 'org-evil-motion-mode
+                                 (format "i%s" ,char) #',inner-name
+                                 (format "a%s" ,char) #',outer-name)))))))
+
+(-each org-evil-text-markup-types (lambda (type) (org-evil-text-markup--define-markup-text-object type)))
 
 (org-evil--define-key 'motion 'org-evil-motion-mode
   "[[" 'org-evil-motion-backward-block-begin

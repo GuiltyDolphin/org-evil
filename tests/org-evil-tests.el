@@ -40,7 +40,7 @@ See `ert-deftest' for the meaning of DOCSTRING and ARGS."
   (pcase-let* ((`(,keys ,specials ,body) (org-evil-test--parse-keyword-value-args args '(:expected-result :tags))))
     `(ert-deftest ,name ,docstring ,@specials
                   ;; ensure evil state messages don't get printed to standard output
-                  (let ((evil-insert-state-message nil))
+                  (let ((inhibit-message t))
                     ,@keys
                     ,@body))))
 
@@ -265,6 +265,80 @@ EXPECTED is the text that should be in the buffer after running BODY with the bu
     (should (equal 1 (org-evil-table-number-of-columns))))
   (org-evil--test-with-buffer-text "| | | | | |"
     (should (equal 5 (org-evil-table-number-of-columns)))))
+
+(org-evil-test--deftest org-evil-text-markup-test ()
+  "Tests for inline markup."
+  :tags '(org-evil org-evil-text-markup)
+
+  ;; test recognition of boundaries
+  (-each '((bold . "*")
+           (code . "~")
+           (italic . "/")
+           (strike-through . "+")
+           (underline . "_")
+           (verbatim . "="))
+    (-lambda ((type . char))
+      (org-evil--test-with-buffer-text (format "Test1  %sTest2%s  Test3" char char)
+        ;; markup start char
+        (goto-char 8)
+        (should (org-evil-in-text-markup-p type))
+        (should (equal (org-evil-text-markup-boundaries type) (cons 8 15)))
+        (should (equal (org-evil-text-markup-content-boundaries type) (cons 9 14)))
+
+        ;; inside markup
+        (goto-char 11)
+        (should (org-evil-in-text-markup-p type))
+        (should (equal (org-evil-text-markup-boundaries type) (cons 8 15)))
+        (should (equal (org-evil-text-markup-content-boundaries type) (cons 9 14)))
+
+        ;; markup end char
+        (goto-char 14)
+        (should (org-evil-in-text-markup-p type))
+        (should (equal (org-evil-text-markup-boundaries type) (cons 8 15)))
+        (should (equal (org-evil-text-markup-content-boundaries type) (cons 9 14))))))
+
+  ;; test recognition of markup inside markup
+  (-each '((bold . "*")
+           (italic . "/")
+           (strike-through . "+")
+           (underline . "_"))
+    (-lambda ((type . char))
+      (org-evil--test-with-buffer-text (format "%sTest1 =Test2= Test3%s" char char)
+        ;; markup start char
+        (goto-char 1)
+        (should (org-evil-in-text-markup-p type))
+        (should-not (org-evil-in-text-markup-p 'verbatim))
+        (should (equal (org-evil-text-markup-boundaries type) (cons 1 22)))
+
+        ;; inner markup
+        (goto-char 11)
+        (should (org-evil-in-text-markup-p type))
+        (should (org-evil-in-text-markup-p 'verbatim))
+        (should (equal (org-evil-text-markup-boundaries type) (cons 1 22)))
+        (should (equal (org-evil-text-markup-boundaries 'verbatim) (cons 8 15)))
+
+        ;; markup end char
+        (goto-char 21)
+        (should (org-evil-in-text-markup-p type))
+        (should-not (org-evil-in-text-markup-p 'verbatim))
+        (should (equal (org-evil-text-markup-boundaries type) (cons 1 22))))))
+
+  ;; test bindings
+  (-each '((bold . "*")
+           (code . "~")
+           (italic . "/")
+           (strike-through . "+")
+           (underline . "_")
+           (verbatim . "="))
+    (-lambda ((type . char))
+
+      ;; deleting around markup
+      (org-evil--test-with-expected-buffer-text (format "Test1 %sTest2%s Test3" char char) "Test1  Test3"
+        (execute-kbd-macro (format "F%sda%s" char char)))
+
+      ;; deleting inside markup
+      (org-evil--test-with-expected-buffer-text (format "Test1 %sTest2%s Test3" char char) (format "Test1 %s%s Test3" char char)
+        (execute-kbd-macro (format "F%sdi%s" char char))))))
 
 (provide 'org-evil-tests)
 ;;; org-evil-tests.el ends here
